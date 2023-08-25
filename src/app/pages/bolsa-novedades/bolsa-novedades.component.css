@@ -1,14 +1,164 @@
 .bolsa-novedades {
-    margin-top: 100px;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+   margin-top: 100px;
+   padding: 20px;
+   background-color: #ffffff;
+   border-radius: 10px;
+   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-.text-muted{
+.autocomplete-results {
+   display: -webkit-box !important;
+}
+
+.text-muted {
+   font-size: 12px;
+   margin-bottom: 5px;
+   color: #7794ad !important;
    font-weight: bold;
 }
-.autocomplete-results{
-   display: -webkit-box !important;
+
+.text-muted-1 {
+   font-size: 12px;
+   color: #7794ad !important;
+   font-weight: bold;
+   line-height: 10px;
+}
+
+.text-muted-info {
+   font-size: 12px;
+   margin-bottom: 5px;
+   color: #1A1731 !important;
+   font-weight: bold;
+}
+
+.text-line {
+   display: block;
+   font-size: 12px;
+}
+
+.text-line-1 {
+   display: block;
+   font-size: 12px;
+   color: #1A1731 !important;
+   font-weight: bold;
+   margin-bottom: 5px;
+}
+
+.guia {
+   font-size: 16px;
+}
+
+
+.autocomplete-submit {
+   margin-right: 55px;
+}
+
+.custom-row {
+   margin-bottom: 30px !important;
+}
+
+.custom-row-info {
+   margin-bottom: 8px !important;
+}
+
+.location-info {
+   display: inline-flex;
+   align-items: center;
+}
+
+.location-icon {
+   margin-right: 15px;
+}
+
+.location-text {
+   font-size: 12px;
+   margin: 0;
+   margin-right: 10px;
+}
+
+.titulo-1 {
+   margin-right: 10px;
+}
+
+.titulo-2 {
+   font-weight: bold;
+   font-size: 18px;
+}
+
+.titulo-3 {
+   background-color: #f9c097;
+   border-radius: 30px;
+   width: 200px;
+}
+
+.titulo-4 {
+   font-weight: bold;
+   font-size: 16px;
+}
+
+
+.border-dotted {
+   width: 1px;
+   min-height: 100%;
+   border-left: 1px dotted #888888;
+}
+
+.custom-box {
+   display: inline-block;
+   width: 70px;
+   height: 70px;
+   padding: 2px 6px;
+   background-color: #F1F4FB;
+   color: #F3F4F9;
+   border-radius: 8px;
+   margin-right: 10px;
+   border: 2px solid #bbcdfb;
+}
+
+.recuadros {
+   display: flex;
+   align-items: center;
+}
+
+.simbolo {
+   width: 20px;
+   height: 2px;
+   background-color: black;
+   margin: 0px 9px;
+}
+
+@media (max-width: 576px) {
+
+   .custom-box,
+   .simbolo {
+      display: block;
+      margin-bottom: 10px;
+      margin-right: 0;
+      width: 60px;
+      height: 60px;
+   }
+
+   .custom-box {
+      border: 2px solid #bbcdfb;
+   }
+
+   .titulo-1 {
+      margin-right: 0px;
+   }
+
+   .simbolo {
+      width: 10px;
+      height: 2px;
+      background-color: black;
+      margin: 0px 9px;
+   }
+
+   .text-line-1 {
+      display: block;
+      font-size: 10px;
+      color: #1A1731 !important;
+      font-weight: bold;
+      margin-bottom: 5px;
+   }
+
 }

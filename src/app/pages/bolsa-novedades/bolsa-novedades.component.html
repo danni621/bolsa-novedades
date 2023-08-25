@@ -1,14 +1,13 @@
 <!-- Inicio Selector-->
 <div class="container">
     <div class="container bolsa-novedades">
-        <div class="row">
+        <div class="row custom-row">
             <div class="content-input bs-border whit-icon search col-md-4 text-center">
                 <form class='autocomplete-container'>
                     <div class='autocomplete' role='combobox' aria-expanded='false' aria-owns='autocomplete-results'
                         aria-haspopup='listbox'>
-                        <input class='autocomplete-input' placeholder='Buscar Servicio'
-                            aria-label='Search for a fruit or vegetable' aria-autocomplete='both'
-                            aria-controls='autocomplete-results'>
+                        <input class='autocomplete-input' aria-label='Search for a fruit or vegetable'
+                            aria-autocomplete='both' aria-controls='autocomplete-results'>
                         <button type='submit' class='autocomplete-submit' aria-label='Search'>
                             <span class="" id="basic-addon3"><img src="././assets/img/search.svg" alt=""></span>
                         </button>
@@ -16,14 +15,103 @@
                 </form>
             </div>
             <div class="col-md-4 text-center">
-                <p class="text-muted">Siguiente guía<br>7000345454</p>
+                <p class="text-muted">
+                    <span class="text-line">Siguiente guía</span>
+                    <span class="text-line guia">7000345454</span>
+                </p>
             </div>
             <div class="col-md-4 text-center">
-                <p class="text-muted">Pendiente<br>909</p>
+                <p class="text-muted">
+                    <span class="text-line">Pendientes por gestionar</span>
+                    <span class="text-line guia">99</span>
+                </p>
             </div>
         </div>
-        <div class="row">
-            <img src="././assets/img/location.svg"><span></span>
+        <div class="row custom-row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 custom-row">
+                    <div class="location-info">
+                        <span class="location-icon"><img src="././assets/img/location.svg" alt=""></span>
+                        <p class="location-text">
+                            <span class="text-muted-info titulo-1">Orígen:</span>
+                            <span class="text-muted-info titulo-1 titulo-2">Medellín</span>
+                        </p>
+                    </div>
+                    <div class="location-info">
+                        <span class="location-icon"><img src="././assets/img/location.svg" alt=""></span>
+                        <p class="text-muted-info location-text">
+                            <span class="text-muted-info titulo-1">Destino:</span>
+                            <span class="text-muted-info titulo-1 titulo-2">Barranquilla</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row custom-row-info">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-left">
+                        <div class="location-info">
+                            <p class="location-text">
+                                <span class="text-muted-info titulo-1 titulo-2">Información envío</span>
+                                <span class="text-muted-info titulo-1 titulo-3">Actual</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row custom-row-info">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-left">
+                        <div class="location-info">
+                            <p class="location-text">
+                                <span class="text-muted-info titulo-1">Fecha de admisión:</span>
+                                <span class="text-muted-info titulo-1 titulo-4">06/06/2023</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-left recuadros">
+                        <span class="custom-box">
+                            <p class="text-muted-1">
+                                <span class="text-line-1 titulo-1">Peso</span>
+                                <span class="text-line-1 titulo-1">51 kg</span>
+                            </p>
+                        </span>
+                        <span class="simbolo"></span>
+                        <span class="custom-box">
+                            <p class="text-muted-1">
+                                <span class="text-line-1 titulo-1">Volumen</span>
+                                <span class="text-line-1 titulo-1">94</span>
+                            </p>
+                        </span>
+                        <span class="simbolo"></span>
+                        <span class="custom-box">
+                            <p class="text-muted-1">
+                                <span class="text-line-1 titulo-1">Largo</span>
+                                <span class="text-line-1 titulo-1">107cm</span>
+                            </p>
+                        </span>
+                        <span class="custom-box">
+                            <p class="text-muted-1">
+                                <span class="text-line-1 titulo-1">Ancho</span>
+                                <span class="text-line-1 titulo-1">105cm</span>
+                            </p>
+                        </span>
+                        <span class="custom-box">
+                            <p class="text-muted-1">
+                                <span class="text-line-1 titulo-1">Alto</span>
+                                <span class="text-line-1 titulo-1">50cm</span>
+                            </p>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="col-12 col-sm-12 col-md-2 col-lg-2 border-dotted"></div>-->
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-right">
+                    <p class="text-muted-info location-text"><span class="text-muted-info titulo-2">Valor
+                            real
+                            del
+                            envío(Ajuste
+                            definitivo)</span></p>
+                </div>
+            </div>
         </div>
 
 
@@ -69,8 +157,8 @@
                 <div class="card mb-3 bs-t-body t-horizontal" style="background: transparent;">
                     <div class="row g-0">
                         <div class="col-md-4 ">
-                            <img src="img/Recogidas.svg" class="img-fluid card-img-center rounded-start"
-                                style="width: 120px;">
+                            <img src="././assets/img/Recogidas.svg" alt=""
+                                class="img-fluid card-img-center rounded-start" style="width: 120px;">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
@@ -84,7 +172,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary bs-btn icon-btn"><img
-                        src="img/arrow-right-orange-2.svg" />Nuevo envío</button>
+                        src="././assets/img/arrow-right-orange-2.svg" alt="" />Nuevo envío</button>
                 <button type="button" class="btn btn-primary bs-btn">Solicitar recogida</button>
             </div>
         </div>
