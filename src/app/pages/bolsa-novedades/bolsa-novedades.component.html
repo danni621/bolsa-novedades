@@ -46,5 +46,44 @@
 
         <button type="button" class="btn btn-primary bs-btn">Nuevo envío</button>
         <button type="button" class="btn btn-primary bs-btn" disabled>Nuevo envío</button>
+        <button type="button" class="btn btn-primary bs-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Demo modal
+        </button>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Título modal</h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card mb-3 bs-t-body t-horizontal" style="background: transparent;">
+                    <div class="row g-0">
+                        <div class="col-md-4 ">
+                            <img src="img/Recogidas.svg" class="img-fluid card-img-center rounded-start"
+                                style="width: 120px;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Recogidas en Casa</h5>
+                                <p class="card-text">Con Recogidas en Casa, tus envíos llegarán a su destino de una
+                                    manera más rápida y segura.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary bs-btn icon-btn"><img
+                        src="img/arrow-right-orange-2.svg" />Nuevo envío</button>
+                <button type="button" class="btn btn-primary bs-btn">Solicitar recogida</button>
+            </div>
+        </div>
     </div>
 </div>
