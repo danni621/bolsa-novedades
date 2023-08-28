@@ -43,6 +43,26 @@
     border: solid 2px #FFA361 !important;
 }
 
+.button-info-3 {
+    background-color: #FFF !important;
+    border: solid 2px #E76100 !important;
+    color: #E76100;
+    cursor: pointer;
+    width: 200px !important;
+    display: inline-block;
+    margin: 20px 0px;
+    border-radius: 10px;
+    padding: 10px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 16px;
+}
+
+.button-info-3:hover {
+    background-color: #FFF !important;
+    border: solid 2px #FFA361 !important;
+}
+
 
 .carousel-inner {
     justify-content: center;
@@ -63,6 +83,9 @@
     margin-bottom: 30px !important;
 }
 
+.custom-row-info {
+    margin-bottom: 10px !important;
+}
 
 .text-muted {
     font-size: 12px;
@@ -85,4 +108,16 @@
 
 .p-1 {
     font-size: 16px;
+}
+
+
+.form-check-input:checked {
+    background-color: #E76100 !important;
+    border-color: #E76100 !important;
+}
+
+.form-check-input {
+    border-radius: 10px !important;
+    width: 1.2em !important;
+    height: 1.2em !important;
 }
