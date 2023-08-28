@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { Service } from '../../services/services';
 import { GuiaModule } from '../../module/guia.module';
+declare var $: any;
 
 @Component({
   selector: 'app-bolsa-novedades',
@@ -45,6 +46,7 @@ export class BolsaNovedadesComponent {
 
   VerEvidencias(event: Event) {
     event.preventDefault();
+    $('#idVerEvidenciasModal').modal('show');
     /*const modalElement: HTMLElement | null = document.getElementById("idVerEvidenciasModal");
     modalElement!.style.display = "none";*/
     /*document.getElementById("loader")?.classList.remove("hide");
