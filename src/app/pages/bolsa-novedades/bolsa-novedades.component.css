@@ -162,6 +162,10 @@
    width: 200px !important;
 }
 
+.modal-dialog .modal-content {
+   background-color: #ffffff !important;
+}
+
 
 @media (min-width: 801px) and (max-width: 1000px) {
 
