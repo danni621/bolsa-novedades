@@ -186,6 +186,22 @@
    border: solid 2px #FFA361 !important;
 }
 
+
+.carousel-inner {
+   justify-content: center;
+   align-items: center;
+   height: 100%;
+}
+
+.carousel-item {
+   text-align: center;
+}
+
+.image-width {
+   width: 400px !important;
+   height: 400px !important;
+}
+
 @media (min-width: 801px) and (max-width: 1000px) {
 
    .custom-box,
