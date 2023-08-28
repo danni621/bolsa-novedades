@@ -215,8 +215,7 @@
                                             stroke-linecap="round" stroke-linejoin="round" />
                                     </svg></span>
                                 <a href="" class="link-blue text-muted-info titulo-5" data-bs-toggle="modal"
-                                data-bs-target="#idVerEvidenciasModal"
-                                    (click)="VerEvidencias($event)">Ver
+                                    data-bs-target="#idVerEvidenciasModal" (click)="VerEvidencias($event)">Ver
                                     evidencia</a>
                             </p>
                         </div>
@@ -308,7 +307,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="idVerEvidenciasModal" tabindex="-1" aria-labelledby="idVerEvidenciasModal" aria-hidden="true">
+<div class="modal fade" id="idVerEvidenciasModal" tabindex="-1" aria-labelledby="idVerEvidenciasModal"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -319,9 +319,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary bs-btn button-continuar" >
-                            Continuar
-                        </button>
+                <button type="button" class="button-continuar" data-bs-dismiss="modal">
+                    Continuar
+                </button>
             </div>
         </div>
     </div>

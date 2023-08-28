@@ -24,7 +24,10 @@ export class BolsaNovedadesComponent {
 
   VerEvidencias(event: Event) {
     event.preventDefault();
+    /*const modalElement: HTMLElement | null = document.getElementById("idVerEvidenciasModal");
+    modalElement!.style.display = "none";*/
     /*document.getElementById("loader")?.classList.remove("hide");
     document.getElementById("loader")?.classList.remove("show");*/
   }
+
 }

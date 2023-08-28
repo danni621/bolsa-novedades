@@ -166,16 +166,24 @@
    background-color: #ffffff !important;
 }
 
-.button-continuar{
-   background-color: #FFA361 !important;
-    border: solid 2px #FFA361 !important;
-
+.button-continuar {
+   background-color: #E76100 !important;
+   border: solid 2px #E76100 !important;
+   color: #fff;
+   cursor: pointer;
+   width: 200px !important;
+   display: inline-block;
+   margin: 20px 0px;
+   border-radius: 48px;
+   padding: 10px 32px;
+   font-size: 16px;
+   font-weight: 600;
+   margin-right: 16px;
 }
 
-.button-continuar:focus{
+.button-continuar:hover {
    background-color: #FFA361 !important;
-    border: solid 2px #FFA361 !important;
-
+   border: solid 2px #FFA361 !important;
 }
 
 @media (min-width: 801px) and (max-width: 1000px) {
