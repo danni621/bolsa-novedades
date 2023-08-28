@@ -256,11 +256,12 @@
                 </div>
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
-                        <button type="button" class="btn btn-outline-primary bs-btn">Rechazar</button>
+                        <button type="button" class="btn btn-outline-primary bs-btn" data-bs-toggle="modal"
+                        data-bs-target="#idRechazadoModal">Rechazar</button>
                     </div>
                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
                         <button type="button" class="btn btn-primary bs-btn" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
+                            data-bs-target="#idAprobadoModal">
                             Aprobar
                         </button>
                     </div>
@@ -272,36 +273,89 @@
 </div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Aprobado -->
+<div class="modal fade" id="idAprobadoModal" tabindex="-1" aria-labelledby="idAprobadoModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Título modal</h5>
 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="card mb-3 bs-t-body t-horizontal" style="background: transparent;">
-                    <div class="row g-0">
-                        <div class="col-md-4 ">
-                            <img src="././assets/img/Recogidas.svg" alt=""
-                                class="img-fluid card-img-center rounded-start" style="width: 120px;">
+                    <div class="row custom-row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                            <img src="././assets/img/noti-4.svg" alt=""
+                            class="img-fluid card-img-center rounded-start" style="width: 120px;">
                         </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">Recogidas en Casa</h5>
-                                <p class="card-text">Con Recogidas en Casa, tus envíos llegarán a su destino de una
-                                    manera más rápida y segura.</p>
-                            </div>
+                       </div>
+                   <div class="row custom-row">
+                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                        <p class="text-muted">
+                            <span class="text-line p-1">¡Liquidación Aprobrada!</span>
+                        </p>
+                     </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                           <p class="text-muted-2">
+                               <span class="text-line p-1">La guía con número "70005238269" se ha aprobado exitosamente.</span>
+                           </p>
                         </div>
+                       </div>
                     </div>
                 </div>
-            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary bs-btn icon-btn"><img
-                        src="././assets/img/arrow-right-orange-2.svg" alt="" />Nuevo envío</button>
-                <button type="button" class="btn btn-primary bs-btn">Solicitar recogida</button>
+                <button type="button" class="button-info-2">
+                    Ver Factura
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Rechazado -->
+<div class="modal fade" id="idRechazadoModal" tabindex="-1" aria-labelledby="idRechazadoModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                    <div class="row custom-row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                            <img src="././assets/img/guia_rechazada.svg">
+                        </div>
+                       </div>
+                   <div class="row custom-row">
+                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                        <p class="text-muted">
+                            <span class="text-line p-1">Selecciona una causal de rechazo</span>
+                        </p>
+                     </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Imágenes no Coinciden y/o no son claras
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                  <label class="form-check-label" for="flexCheckChecked">
+                                    El trayecto no aplica para liquidación
+                                  </label>
+                              </div>
+                        </div>
+                       </div>
+                    </div>
+            <div class="modal-footer">
+                <button type="button" class="button-info-2">
+                    Ver Factura
+                </button>
             </div>
         </div>
     </div>
@@ -343,7 +397,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="button-continuar" data-bs-dismiss="modal">
+                <button type="button" class="button-info-1" data-bs-dismiss="modal">
                     Continuar
                 </button>
             </div>
