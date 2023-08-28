@@ -58,3 +58,31 @@
     width: 400px !important;
     height: 400px !important;
 }
+
+.custom-row {
+    margin-bottom: 30px !important;
+}
+
+
+.text-muted {
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: #7794ad !important;
+    font-weight: bold;
+}
+
+.text-muted-2 {
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: #7794ad !important;
+}
+
+.text-line {
+    display: block;
+    font-size: 12px;
+}
+
+
+.p-1 {
+    font-size: 16px;
+}
