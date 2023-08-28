@@ -16,4 +16,8 @@ export class ModalsComponent {
     $('#idVerEvidenciasModal').modal('hide');
   }
 
+  EnviarRechazo() {
+    alert($('#causalRechazo1').val());
+  }
+
 }

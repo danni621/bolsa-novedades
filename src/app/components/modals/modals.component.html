@@ -65,16 +65,18 @@
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center custom-row-info">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label text-muted-2" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox"
+                                value="Imágenes no Coinciden y/o no son claras" id="causalRechazo1">
+                            <label class="form-check-label text-muted-2" for="causalRechazo1">
                                 Imágenes no Coinciden y/o no son claras
                             </label>
                         </div>
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label text-muted-2" for="flexCheckChecked">
+                            <input class="form-check-input" type="checkbox"
+                                value="El trayecto no aplica para liquidación" id="causalRechazo2">
+                            <label class="form-check-label text-muted-2" for="causalRechazo2">
                                 El trayecto no aplica para liquidación
                             </label>
                         </div>
@@ -87,7 +89,7 @@
                         <button type="button" class="button-info-3" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
-                        <button type="button" class="button-info-2">
+                        <button type="button" class="button-info-2" (click)="EnviarRechazo()">
                             Enviar
                         </button>
                     </div>
