@@ -214,7 +214,8 @@
                                         <path d="M21 15L16 10L5 21" stroke="#E76100" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round" />
                                     </svg></span>
-                                <a href="" class="link-blue text-muted-info titulo-5"
+                                <a href="" class="link-blue text-muted-info titulo-5" data-bs-toggle="modal"
+                                data-bs-target="#idVerEvidenciasModal"
                                     (click)="VerEvidencias($event)">Ver
                                     evidencia</a>
                             </p>
@@ -302,6 +303,25 @@
                 <button type="button" class="btn btn-outline-primary bs-btn icon-btn"><img
                         src="././assets/img/arrow-right-orange-2.svg" alt="" />Nuevo envío</button>
                 <button type="button" class="btn btn-primary bs-btn">Solicitar recogida</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="idVerEvidenciasModal" tabindex="-1" aria-labelledby="idVerEvidenciasModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card mb-3 bs-t-body t-horizontal" style="background: transparent;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary bs-btn button-continuar" >
+                            Continuar
+                        </button>
             </div>
         </div>
     </div>

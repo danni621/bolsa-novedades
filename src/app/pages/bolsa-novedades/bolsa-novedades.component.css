@@ -166,6 +166,17 @@
    background-color: #ffffff !important;
 }
 
+.button-continuar{
+   background-color: #FFA361 !important;
+    border: solid 2px #FFA361 !important;
+
+}
+
+.button-continuar:focus{
+   background-color: #FFA361 !important;
+    border: solid 2px #FFA361 !important;
+
+}
 
 @media (min-width: 801px) and (max-width: 1000px) {
 
