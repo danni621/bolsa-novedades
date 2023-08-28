@@ -46,9 +46,11 @@ export class BolsaNovedadesComponent {
 
   VerEvidencias(event: Event) {
     event.preventDefault();
-    $('#loader').remove("hide");
+    $('#peso-2').css("background-color", "#F18F7C");
+    $('#peso-2').css("border", "2px solid #F18F7C");
+    $('#loader').removeClass('hide');
     $('#idVerEvidenciasModal').modal('show');
-    $('#loader').add("hide");
+    $('#loader').addClass('hide');
   }
 
 }

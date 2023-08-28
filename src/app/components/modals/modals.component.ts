@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var $: any;
 
 @Component({
   selector: 'app-modals',
@@ -9,6 +10,10 @@ export class ModalsComponent {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  Continuar() {
+    $('#idVerEvidenciasModal').modal('hide');
   }
 
 }
