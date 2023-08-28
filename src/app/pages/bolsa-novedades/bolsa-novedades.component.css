@@ -169,67 +169,6 @@
    width: 200px !important;
 }
 
-.modal-dialog .modal-content {
-   background-color: #ffffff !important;
-}
-
-.button-info-1 {
-   background-color: #E76100 !important;
-   border: solid 2px #E76100 !important;
-   color: #fff;
-   cursor: pointer;
-   width: 200px !important;
-   display: inline-block;
-   margin: 20px 0px;
-   border-radius: 48px;
-   padding: 10px 32px;
-   font-size: 16px;
-   font-weight: 600;
-   margin-right: 16px;
-}
-
-.button-info-1:hover {
-   background-color: #FFA361 !important;
-   border: solid 2px #FFA361 !important;
-}
-
-
-.button-info-2 {
-   background-color: #E76100 !important;
-   border: solid 2px #E76100 !important;
-   color: #fff;
-   cursor: pointer;
-   width: 200px !important;
-   display: inline-block;
-   margin: 20px 0px;
-   border-radius: 10px;
-   padding: 10px 32px;
-   font-size: 16px;
-   font-weight: 600;
-   margin-right: 16px;
-}
-
-.button-info-2:hover {
-   background-color: #FFA361 !important;
-   border: solid 2px #FFA361 !important;
-}
-
-
-.carousel-inner {
-   justify-content: center;
-   align-items: center;
-   height: 100%;
-}
-
-.carousel-item {
-   text-align: center;
-}
-
-.image-width {
-   width: 400px !important;
-   height: 400px !important;
-}
-
 @media (min-width: 801px) and (max-width: 1000px) {
 
    .custom-box,

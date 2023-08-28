@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { BolsaNovedadesComponent } from './pages/bolsa-novedades/bolsa-novedades.component';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { BolsaNovedadesComponent } from './pages/bolsa-novedades/bolsa-novedades
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
