@@ -17,7 +17,16 @@ export class ModalsComponent {
   }
 
   EnviarRechazo() {
-    alert($('#causalRechazo1').val());
+    let value = "";
+    if ($('#causalRechazo1').prop('checked')) {
+      value = $('#causalRechazo1').val();
+    }
+
+    if ($('#causalRechazo2').prop('checked')) {
+      value = (value != "") ? value + '|' : '';
+      value = value + $('#causalRechazo2').val();
+    }
+    alert(value);
   }
 
 }

@@ -20,7 +20,7 @@ export class BolsaNovedadesComponent {
     this.guia.origen = "Medellin";
     this.guia.destino = "Bogota";
     this.guia.fechaadmision = "23/08/2023";
-    this.guia.peso_envio = "1";
+    this.guia.peso_envio = "5";
     this.guia.volumen_envio = "3";
     this.guia.largo_envio = "50";
     this.guia.ancho_envio = "50";
@@ -30,9 +30,9 @@ export class BolsaNovedadesComponent {
     this.guia.fechaAuditoria = "25/08/2023";
     this.guia.peso_auditoria = "5";
     this.guia.volumen_auditoria = "10";
-    this.guia.largo_auditoria = "85";
+    this.guia.largo_auditoria = "50";
     this.guia.ancho_auditoria = "85";
-    this.guia.alto_auditoria = "85";
+    this.guia.alto_auditoria = "50";
     this.guia.diferencia_peso = "7";
     this.guia.auditor = "Ricardo Quevedo";
     this.guia.observacion = "N/A";
@@ -42,15 +42,32 @@ export class BolsaNovedadesComponent {
 
   ngOnInit(): void {
     localStorage.clear();
+    this.ChangeColor();
   }
 
   VerEvidencias(event: Event) {
     event.preventDefault();
-    $('#peso-2').css("background-color", "#F18F7C");
-    $('#peso-2').css("border", "2px solid #F18F7C");
     $('#loader').removeClass('hide');
     $('#idVerEvidenciasModal').modal('show');
     $('#loader').addClass('hide');
   }
+
+  ChangeColor() {
+    this.applyStyleIfDifferent(this.guia.peso_envio, this.guia.peso_auditoria, 'peso-2');
+    this.applyStyleIfDifferent(this.guia.volumen_envio, this.guia.volumen_auditoria, 'volumen-2');
+    this.applyStyleIfDifferent(this.guia.largo_envio, this.guia.largo_auditoria, 'largo-2');
+    this.applyStyleIfDifferent(this.guia.ancho_envio, this.guia.ancho_auditoria, 'ancho-2');
+    this.applyStyleIfDifferent(this.guia.alto_envio, this.guia.alto_auditoria, 'alto-2');
+  }
+
+  applyStyleIfDifferent(value: any, auditValue: any, elementId: any) {
+    if (value !== auditValue) {
+      $('#' + elementId).css({
+        "background-color": "#F18F7C",
+        "border": "2px solid #F18F7C"
+      });
+    }
+  }
+
 
 }
