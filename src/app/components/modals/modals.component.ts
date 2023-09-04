@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PdfService } from '../../components/pdf/pdfservice.module';
 declare var $: any;
 
 @Component({
@@ -7,7 +8,9 @@ declare var $: any;
   styleUrls: ['./modals.component.css']
 })
 export class ModalsComponent {
-  constructor() { }
+  constructor(private pdfService: PdfService) {
+
+  }
 
   ngOnInit(): void {
   }
@@ -27,6 +30,10 @@ export class ModalsComponent {
       value = value + $('#causalRechazo2').val();
     }
     alert(value);
+  }
+
+  VerFactura() {
+    this.pdfService.GenerarFactura();
   }
 
 }
