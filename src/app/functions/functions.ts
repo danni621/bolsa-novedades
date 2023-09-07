@@ -28,6 +28,22 @@ export class Functions {
         });
     }
 
+
+    PopUpRechazar(html: any) {
+        Swal.fire({
+            allowOutsideClick: false,
+            html: html,
+            confirmButtonText: 'Aceptar',
+            customClass: {
+                confirmButton: 'my-custom-button-class',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                alert('Enviar Correo');
+            }
+        });
+    }
+
     PopUpVerFactura(html: any) {
         Swal.fire({
             allowOutsideClick: false,
@@ -42,6 +58,19 @@ export class Functions {
                 alert('Enviar correo');
             }
         });
+    }
+
+    PopUpAlert(title: any, icon: any, text: any, allowOutsideClick: boolean = false, loading: boolean = false) {
+
+        Swal.fire({
+            allowOutsideClick: allowOutsideClick,
+            title: title,
+            icon: icon,
+            text: text
+        });
+
+        if (loading)
+            Swal.showLoading();
 
     }
 }

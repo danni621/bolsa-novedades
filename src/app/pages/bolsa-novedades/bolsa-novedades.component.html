@@ -7,7 +7,7 @@
                     <div class='autocomplete' role='combobox' aria-expanded='false' aria-owns='autocomplete-results'
                         aria-haspopup='listbox'>
                         <input class='autocomplete-input' aria-label='Search for a fruit or vegetable'
-                            aria-autocomplete='both' aria-controls='autocomplete-results'>
+                            aria-autocomplete='both' aria-controls='autocomplete-results' value="{{guia.guia}}">
                         <button type='submit' class='autocomplete-submit' aria-label='Search'>
                             <span class="" id="basic-addon3"><img src="././assets/img/search.svg" alt=""></span>
                         </button>
@@ -17,7 +17,7 @@
             <div class="col-md-4 text-center">
                 <p class="text-muted">
                     <span class="text-line">Siguiente guía</span>
-                    <span class="text-line p-1">{{guia.guia}}</span>
+                    <span class="text-line p-1">{{guia.guiasiguiente}}</span>
                 </p>
             </div>
             <div class="col-md-4 text-center">
@@ -266,11 +266,11 @@
                 </div>
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
-                        <button type="button" class="btn btn-outline-primary bs-btn" data-bs-toggle="modal"
-                            data-bs-target="#idRechazadoModal">Rechazar</button>
+                        <button type="button" class="btn btn-outline-primary bs-btn"
+                            (click)="ConfirmRechazar()">Rechazar</button>
                     </div>
                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
-                        <button type="button" class="btn btn-primary bs-btn" (click)="Aprobar()">
+                        <button type="button" class="btn btn-primary bs-btn" (click)="ConfirmAprobar()">
                             Aprobar
                         </button>
                     </div>
@@ -284,4 +284,4 @@
 
 
 
-<app-modals></app-modals>
+<app-modals [guia]="guia"></app-modals>

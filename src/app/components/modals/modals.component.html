@@ -105,6 +105,89 @@
 
 
 
+<!-- Modal Inicio Confirmacion Aprobacion -->
+<div class="modal fade" id="idConfAprobacion" tabindex="-1" aria-labelledby="idConfAprobacion" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row custom-row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                        <img src="././assets/img/icon/warning-b.svg">
+                    </div>
+                </div>
+                <div class="row custom-row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                        <p class="text-muted">
+                            <span class="text-line p-1">¿Está seguro/a de Aprobar?</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                        <button type="button" class="button-info-3" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                        <button type="button" class="button-info-2" (click)="Aprobar()">
+                            Aprobar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Fin Confirmacion Aprobacion -->
+
+
+
+
+<!-- Modal Inicio Confirmacion Rechazo -->
+<div class="modal fade" id="idConfRechazo" tabindex="-1" aria-labelledby="idConfRechazo" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row custom-row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                        <img src="././assets/img/icon/warning-b.svg">
+                    </div>
+                </div>
+                <div class="row custom-row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                        <p class="text-muted">
+                            <span class="text-line p-1">¿Está seguro/a de Rechazar?</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                        <button type="button" class="button-info-3" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                        <button type="button" class="button-info-2" (click)="Rechazar()">
+                            Rechazar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Fin Confirmacion Rechazo -->
+
+
+
+
+
 <div class="loader-container hide" name="loader" id="loader">
     <img src="././assets/img/loader-truck.gif" alt="" />
     <div class="loader-background"></div>

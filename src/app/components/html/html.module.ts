@@ -55,4 +55,30 @@ export class HtmlService {
             '</div>';
         return html;
     }
+
+    RechazarHtml() {
+        const html = '<div class="row custom-row">' +
+            '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
+            '<img src="././assets/img/guia_rechazada.svg" alt="">' +
+            '</div>' +
+            '</div>' +
+            '<div class="row custom-row">' +
+            '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
+            '<p class="text-muted">' +
+            '<span class="text-line p-1">¡Guía Rechazada!</span>' +
+            '</p>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row">' +
+            '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
+            '<p class="text-muted-2">' +
+            '<span class="text-line p-1">La guía con número "70005238269" ha sido rechazada, se enviara ' +
+            'la ' +
+            'notificación a los canales correspondientes</span>' +
+            '</p>' +
+            '</div>' +
+            '</div>';
+
+        return html;
+    }
 }

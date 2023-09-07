@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Functions } from '../../functions/functions';
+import { HtmlService } from '../../components/html/html.module';
+import { GuiaModule } from '../../module/guia.module';
 
 declare var $: any;
 
@@ -9,7 +12,10 @@ declare var $: any;
 })
 export class ModalsComponent {
 
-  constructor() {
+  @Input() guia = new GuiaModule();
+
+  constructor(private htmlService: HtmlService,
+    private functions: Functions) {
   }
 
   ngOnInit(): void {
@@ -30,7 +36,19 @@ export class ModalsComponent {
       value = (value != "") ? value + '|' : '';
       value = value + $('#causalRechazo2').val();
     }
-    alert(value);
+
+    $("#idRechazadoModal").modal("hide");
+    this.functions.PopUpRechazar(this.htmlService.RechazarHtml());
+  }
+
+  Aprobar() {
+    this.functions.PopUpAprobar(this.htmlService.AprobarHtml());
+    $("#idConfAprobacion").modal('hide');
+  }
+
+  Rechazar() {
+    $("#idConfRechazo").modal('hide');
+    $("#idRechazadoModal").modal('show');
   }
 
 }

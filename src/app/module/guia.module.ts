@@ -10,9 +10,10 @@ import { CommonModule } from '@angular/common';
 export class GuiaModule {
     guia: string = "";
     cantidadguias: string = "";
+    guiasiguiente: string = "";
     origen: string = "";
     destino: string = "";
-    fechaadmision: string ="";
+    fechaadmision: string = "";
     peso_envio: string = "";
     volumen_envio: string = "";
     largo_envio: string = "";

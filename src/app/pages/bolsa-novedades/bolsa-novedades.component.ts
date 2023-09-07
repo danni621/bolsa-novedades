@@ -4,8 +4,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Service } from '../../services/services';
 import { GuiaModule } from '../../module/guia.module';
-import { HtmlService } from '../../components/html/html.module';
 import { Functions } from '../../functions/functions';
+
 
 
 declare var $: any;
@@ -18,12 +18,11 @@ declare var $: any;
 export class BolsaNovedadesComponent {
 
   guia = new GuiaModule();
-  imageData: string = '';
-  pdfDataUri: string = '';
 
-  constructor(private modalService: NgbModal, private htmlService: HtmlService, private functions: Functions) {
-    this.guia.guia = '7000000';
-    this.guia.cantidadguias = '99';
+  constructor(private modalService: NgbModal,
+    private functions: Functions,
+    private service: Service) {
+
     this.guia.origen = "Medellin";
     this.guia.destino = "Bogota";
     this.guia.fechaadmision = "23/08/2023";
@@ -50,7 +49,19 @@ export class BolsaNovedadesComponent {
 
   ngOnInit(): void {
     localStorage.clear();
+    $('#loader').removeClass('hide');
     this.ChangeColor();
+    this.service.ConsultarEncabezado().subscribe({
+      next: (res) => {
+        $('#loader').addClass('hide');
+        this.guia.guia = res.GuiaGestionar;
+        this.guia.guiasiguiente = res.SiguienteGuia;
+        this.guia.cantidadguias = res.PendientePorGestionar;
+      },
+      error: (err) => {
+        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false)
+      }
+    });
   }
 
   VerEvidencias(event: Event) {
@@ -77,8 +88,12 @@ export class BolsaNovedadesComponent {
     }
   }
 
-  Aprobar() {
-    this.functions.PopUpAprobar(this.htmlService.AprobarHtml());
+  ConfirmAprobar() {
+    $("#idConfAprobacion").modal('show');
+  }
+
+  ConfirmRechazar() {
+    $("#idConfRechazo").modal('show');
   }
 
 

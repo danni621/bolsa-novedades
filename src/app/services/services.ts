@@ -12,6 +12,13 @@ import { environment } from '../../environments/environment';
 export class Service {
 
     constructor(private http: HttpClient) {
+    }
 
+    ConsultarEncabezado() {
+        return this.http.post(`${environment.url}consultarpendientesliquidacion`, '').pipe(
+            map((resp: any) => {
+                return resp;
+            })
+        );
     }
 }
