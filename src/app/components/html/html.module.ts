@@ -47,8 +47,8 @@ export class HtmlService {
             '<div class="col-md-6 col-lg-12 text-left">' +
             '<p class="text-muted">' +
             '<span class="text-line p-2">*Se generara la notificación al dar en "Enviar" se enviara al' +
-            'canal de' +
-            'venta, posterior podrás continuar con la siguiente guía</span>' +
+            ' canal de' +
+            ' venta, posterior podrás continuar con la siguiente guía</span>' +
             '</p>' +
             '</div>' +
             '</div>' +
