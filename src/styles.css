@@ -1,1 +1,105 @@
-/* You can add global styles to this file, and also import other style files */
+.my-custom-button-class {
+    background-color: #E76100 !important;
+    border: solid 2px #E76100 !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    width: 200px !important;
+    display: inline-block !important;
+    margin: 20px 0px !important;
+    border-radius: 10px !important;
+    padding: 10px 32px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    margin-right: 16px !important;
+}
+
+.my-custom-button-class:hover {
+    background-color: #FFA361 !important;
+    border: solid 2px #FFA361 !important;
+}
+
+
+.custom-row {
+    margin-bottom: 30px !important;
+}
+
+.custom-row-info {
+    margin-bottom: 10px !important;
+}
+
+.text-muted {
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: #7794ad !important;
+    font-weight: bold;
+}
+
+.text-line {
+    display: block;
+    font-size: 12px;
+}
+
+.p-1 {
+    font-size: 16px;
+}
+
+
+.text-muted-2 {
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: #7794ad !important;
+}
+
+.swal2-html-container {
+    overflow: unset !important;
+}
+
+
+.modal-pdf {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.modal-pdf-dialog {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.col-12 iframe.modal-pdf-dialog {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+}
+
+.div-postion {
+    width: 98.5% !important;
+    background-color: #323639 !important;
+    height: 50px !important;
+    position: absolute !important;
+}
+
+.p-2 {
+    font-size: 16px;
+    color: white;
+}
+
+.mi-clase-personal .swal2-modal {
+    display: grid;
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.mi-clase-personal .swal2-popup {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.mi-clase-personal .modal-pdf iframe {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    display: block;
+}

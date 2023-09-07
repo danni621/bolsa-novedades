@@ -29,6 +29,7 @@ export class GuiaModule {
     valortotal_auditoria: string = "";
     diferencia_peso: string = "";
     auditor: string = "";
+    idCentroServicio: string = "";
     observacion: string = "";
     valorajuste: string = "";
 }

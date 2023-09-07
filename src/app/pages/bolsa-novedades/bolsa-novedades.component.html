@@ -186,6 +186,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="row custom-row-info">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-left">
+                        <div class="location-info">
+                            <p class="location-text">
+                                <span class="text-muted-info titulo-1">Id:</span>
+                                <span class="text-muted-info titulo-1">{{guia.idCentroServicio}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 <div class="row custom-row">
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-left">
                         <div class="location-info">
@@ -260,8 +270,7 @@
                             data-bs-target="#idRechazadoModal">Rechazar</button>
                     </div>
                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
-                        <button type="button" class="btn btn-primary bs-btn" data-bs-toggle="modal"
-                            data-bs-target="#idAprobadoModal">
+                        <button type="button" class="btn btn-primary bs-btn" (click)="Aprobar()">
                             Aprobar
                         </button>
                     </div>
@@ -271,6 +280,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 <app-modals></app-modals>
