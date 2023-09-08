@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 import { HtmlService } from '../components/html/html.module';
 import { PdfService } from '../components/pdf/pdfservice.module';
 
+declare var $: any;
+
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +14,7 @@ export class Functions {
 
     constructor(private html: HtmlService, private pdfService: PdfService) { }
 
-    PopUpAprobar(html: any) {
+    PopUpAprobar(html: any, guia: any) {
         Swal.fire({
             allowOutsideClick: false,
             html: html,
@@ -23,13 +25,13 @@ export class Functions {
         }).then((result) => {
             if (result.isConfirmed) {
                 const data = this.pdfService.GenerarFactura();
-                this.PopUpVerFactura(this.html.VerFacturaPos(data));
+                this.PopUpvVerEnviarFactura(this.html.VerFacturaPos(data));
             }
         });
     }
 
 
-    PopUpRechazar(html: any) {
+    PopUpRechazar(html: any, guia: any) {
         Swal.fire({
             allowOutsideClick: false,
             html: html,
@@ -44,7 +46,7 @@ export class Functions {
         });
     }
 
-    PopUpVerFactura(html: any) {
+    PopUpvVerEnviarFactura(html: any) {
         Swal.fire({
             allowOutsideClick: false,
             html: html,
@@ -60,13 +62,38 @@ export class Functions {
         });
     }
 
+    PopUpBuscar(html: any, guia: any, guiaLiberada: any) {
+        Swal.fire({
+            allowOutsideClick: false,
+            html: html,
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Continuar',
+            customClass: {
+                confirmButton: 'my-custom-button-class',
+                cancelButton: 'button-info-3'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                alert('Consumir busqueda');
+            } else {
+                $("#inputGuia").val(guia.guia);
+            }
+        });
+
+    }
+
     PopUpAlert(title: any, icon: any, text: any, allowOutsideClick: boolean = false, loading: boolean = false) {
 
         Swal.fire({
             allowOutsideClick: allowOutsideClick,
             title: title,
             icon: icon,
-            text: text
+            text: text,
+            confirmButtonText: 'OK',
+            customClass: {
+                confirmButton: 'my-custom-button-class',
+            }
         });
 
         if (loading)

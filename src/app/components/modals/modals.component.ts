@@ -13,13 +13,13 @@ declare var $: any;
 export class ModalsComponent {
 
   @Input() guia = new GuiaModule();
+  @Input() guiaLiberada: string = '';
 
   constructor(private htmlService: HtmlService,
     private functions: Functions) {
   }
 
   ngOnInit(): void {
-
   }
 
   Continuar() {
@@ -38,11 +38,11 @@ export class ModalsComponent {
     }
 
     $("#idRechazadoModal").modal("hide");
-    this.functions.PopUpRechazar(this.htmlService.RechazarHtml());
+    this.functions.PopUpRechazar(this.htmlService.RechazarHtml(this.guia), this.guia);
   }
 
   Aprobar() {
-    this.functions.PopUpAprobar(this.htmlService.AprobarHtml());
+    this.functions.PopUpAprobar(this.htmlService.AprobarHtml(this.guia), this.guia);
     $("#idConfAprobacion").modal('hide');
   }
 

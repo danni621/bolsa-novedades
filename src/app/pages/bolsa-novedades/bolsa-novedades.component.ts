@@ -5,7 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Service } from '../../services/services';
 import { GuiaModule } from '../../module/guia.module';
 import { Functions } from '../../functions/functions';
+import { HtmlService } from '../../components/html/html.module';
 
+import { Utilitarios } from '../../utilitarios/utilitarios.component';
 
 
 declare var $: any;
@@ -18,50 +20,22 @@ declare var $: any;
 export class BolsaNovedadesComponent {
 
   guia = new GuiaModule();
+  guiaLiberada: string = '';
 
   constructor(private modalService: NgbModal,
     private functions: Functions,
-    private service: Service) {
+    private service: Service,
+    private htmlservice: HtmlService,
+    private utilitarios: Utilitarios) {
 
-    this.guia.origen = "Medellin";
-    this.guia.destino = "Bogota";
-    this.guia.fechaadmision = "23/08/2023";
-    this.guia.peso_envio = "5";
-    this.guia.volumen_envio = "3";
-    this.guia.largo_envio = "50";
-    this.guia.ancho_envio = "50";
-    this.guia.alto_envio = "50";
-    this.guia.valorcomercial_envio = "25000";
-    this.guia.valortotal_envio = "18500";
-    this.guia.fechaAuditoria = "25/08/2023";
-    this.guia.peso_auditoria = "5";
-    this.guia.volumen_auditoria = "10";
-    this.guia.largo_auditoria = "50";
-    this.guia.ancho_auditoria = "85";
-    this.guia.alto_auditoria = "50";
-    this.guia.diferencia_peso = "7";
-    this.guia.auditor = "Ricardo Quevedo";
-    this.guia.idCentroServicio = "1295";
-    this.guia.observacion = "N/A";
-    this.guia.valortotal_auditoria = "54000";
-    this.guia.valorajuste = "35500";
+
   }
 
   ngOnInit(): void {
-    localStorage.clear();
     $('#loader').removeClass('hide');
+    localStorage.clear();
+    this.ConsumoEnCabezado();
     this.ChangeColor();
-    this.service.ConsultarEncabezado().subscribe({
-      next: (res) => {
-        $('#loader').addClass('hide');
-        this.guia.guia = res.GuiaGestionar;
-        this.guia.guiasiguiente = res.SiguienteGuia;
-        this.guia.cantidadguias = res.PendientePorGestionar;
-      },
-      error: (err) => {
-        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false)
-      }
-    });
   }
 
   VerEvidencias(event: Event) {
@@ -94,6 +68,41 @@ export class BolsaNovedadesComponent {
 
   ConfirmRechazar() {
     $("#idConfRechazo").modal('show');
+  }
+
+  ConsumoEnCabezado() {
+    this.service.ConsultarEncabezadoyInfoGuia('consultarpendientesliquidacion', '').subscribe({
+      next: (res) => {
+        this.guia = this.utilitarios.CargarInfoEncabezado(res);
+        this.ConsumoInfoGuia(this.guia);
+      },
+      error: (err) => {
+        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false);
+      }
+    });
+  }
+
+  ConsumoInfoGuia(guia: any) {
+    this.service.ConsultarEncabezadoyInfoGuia('consultarinfoliquidacion', this.guia.guia).subscribe({
+      next: (res) => {
+        this.guia = this.utilitarios.CargarInfoGuia(res);
+        $('#loader').addClass('hide');
+      },
+      error: (err) => {
+        if (err.status == 400) {
+          this.functions.PopUpAlert('', 'info', err.error, true, false);
+        } else {
+          this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false);
+        }
+      }
+    });
+  }
+
+  BuscarGuia() {
+    if (this.guia.guia != $("#inputGuia").val()) {
+      this.guiaLiberada = $("#inputGuia").val();
+      this.functions.PopUpBuscar(this.htmlservice.BuscarHtml(this.guia, this.guiaLiberada), this.guia, this.guiaLiberada);
+    }
   }
 
 

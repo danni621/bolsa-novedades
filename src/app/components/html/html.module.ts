@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 
 
 @Injectable({
@@ -8,7 +8,7 @@ export class HtmlService {
 
     constructor() { }
 
-    AprobarHtml() {
+    AprobarHtml(guia: any) {
         const html =
             '<div class="row custom-row">' +
             '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
@@ -26,7 +26,7 @@ export class HtmlService {
             '<div class="row">' +
             '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
             '<p class="text-muted-2">' +
-            '<span class="text-line p-1">La guía con número "70005238269" se ha aprobado' +
+            '<span class="text-line p-1">La guía con número "' + guia.guia + '" se ha aprobado' +
             ' exitosamente.</span>' +
             '</p>' +
             '</div>' +
@@ -56,7 +56,7 @@ export class HtmlService {
         return html;
     }
 
-    RechazarHtml() {
+    RechazarHtml(guia: any) {
         const html = '<div class="row custom-row">' +
             '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
             '<img src="././assets/img/guia_rechazada.svg" alt="">' +
@@ -72,9 +72,35 @@ export class HtmlService {
             '<div class="row">' +
             '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
             '<p class="text-muted-2">' +
-            '<span class="text-line p-1">La guía con número "70005238269" ha sido rechazada, se enviara ' +
+            '<span class="text-line p-1">La guía con número "' + guia.guia + '" ha sido rechazada, se enviara ' +
             'la ' +
             'notificación a los canales correspondientes</span>' +
+            '</p>' +
+            '</div>' +
+            '</div>';
+
+        return html;
+    }
+
+    BuscarHtml(guia: any, guiaBuscar: any) {
+        const html = '<div class="row custom-row">' +
+            '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
+            '<img src="././assets/img/guía_sin_auditoria.svg">' +
+            '</div>' +
+            '</div>' +
+            '<div class="row custom-row">' +
+            '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
+            '<p class="text-muted">' +
+            '<span class="text-line p-1">¿Desea continuar con la busqueda de la guía digitada:' +
+            ' ' + guiaBuscar + '?</span>' +
+            '</p>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row custom-row">' +
+            '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
+            '<p class="text-muted">' +
+            '<span class="text-line p-1">Recuerda que se liberara la guía que estás gestionando:' +
+            ' ' + guia.guia + '</span>' +
             '</p>' +
             '</div>' +
             '</div>';
