@@ -21,4 +21,13 @@ export class Service {
             })
         );
     }
+
+    ValidarToken(metodo: any, token: any) {
+        return this.http.post(`${environment.UrlAutenticacion}${metodo}`, token).pipe(
+            map((resp: any) => {
+                return resp;
+            })
+        );
+
+    }
 }

@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 
 import { HtmlService } from '../components/html/html.module';
 import { PdfService } from '../components/pdf/pdfservice.module';
+import { environment } from 'src/environments/environment';
 
 declare var $: any;
 
@@ -98,6 +99,21 @@ export class Functions {
 
         if (loading)
             Swal.showLoading();
+
+    }
+
+    SesionCaducada() {
+        Swal.fire({
+            title: "Sesión Caducada",
+            text: "Por favor autenticarse nuevamente",
+            allowOutsideClick: false,
+            showCancelButton: false,
+            showConfirmButton: true,
+            confirmButtonText: 'Aceptar',
+        }).then(resp => {
+            if (resp.isConfirmed)
+                window.location.href = environment.urlLogin;
+        });
 
     }
 }

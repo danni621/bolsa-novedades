@@ -34,7 +34,7 @@ export class BolsaNovedadesComponent {
 
   ngOnInit(): void {
     $('#loader').removeClass('hide');
-    localStorage.clear();
+    //localStorage.clear();
     this.ConsumoEnCabezado();
     this.ChangeColor();
   }
