@@ -8,6 +8,7 @@ import { Functions } from '../../functions/functions';
 import { HtmlService } from '../../components/html/html.module';
 
 import { Utilitarios } from '../../utilitarios/utilitarios.component';
+import { AuthGuard } from '../../guards/auth.guard';
 
 
 declare var $: any;
@@ -27,14 +28,19 @@ export class BolsaNovedadesComponent {
     private functions: Functions,
     private service: Service,
     private htmlservice: HtmlService,
-    private utilitarios: Utilitarios) {
+    private utilitarios: Utilitarios,
+    private authguard: AuthGuard) {
 
 
   }
 
   ngOnInit(): void {
     $('#loader').removeClass('hide');
-    //localStorage.clear();
+    /*const canActivateExecuted = localStorage.getItem('canActivateExecuted');
+    if (!canActivateExecuted) {
+      this.authguard.canActivate();
+      localStorage.setItem('canActivateExecuted', 'true');
+    }*/
     this.ConsumoEnCabezado();
     this.ChangeColor();
   }
@@ -118,6 +124,5 @@ export class BolsaNovedadesComponent {
       this.functions.PopUpBuscar(this.htmlservice.BuscarHtml(this.guia, this.guiaLiberada), this.guia, this.guiaLiberada);
     }
   }
-
 
 }

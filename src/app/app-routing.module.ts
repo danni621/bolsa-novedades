@@ -5,7 +5,6 @@ import { BolsaNovedadesComponent } from './pages/bolsa-novedades/bolsa-novedades
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-    //{ path: 'bolsanovedades', component: BolsaNovedadesComponent, canActivate: [AuthGuard] },
     { path: 'bolsanovedades', component: BolsaNovedadesComponent },
     { path: '**', redirectTo: 'bolsanovedades', pathMatch: 'full' }
 ];
