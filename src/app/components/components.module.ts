@@ -9,6 +9,7 @@ import { ModalsComponent } from '../components/modals/modals.component';
         ModalsComponent,
     ],
     imports: [
+        CommonModule,
     ],
     exports: [
         ModalsComponent

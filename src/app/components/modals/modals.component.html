@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div class="row custom-row">
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                        <img src="././assets/img/guia_rechazada.svg">
+                        <img src="././assets/img/guia_rechazada.svg" alt="">
                     </div>
                 </div>
                 <div class="row custom-row">
@@ -67,17 +67,9 @@
             <div class="modal-body">
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        <div class="carousel-item active text-center">
-                            <img src="https://images.unsplash.com/photo-1472457897821-70d3819a0e24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
-                                class="image-width" alt="...">
-                        </div>
-                        <div class="carousel-item text-center">
-                            <img src="https://images.unsplash.com/photo-1620191957898-8fe864c06237?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80"
-                                class="image-width" alt="...">
-                        </div>
-                        <div class="carousel-item text-center">
-                            <img src="https://images.unsplash.com/photo-1472457897821-70d3819a0e24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
-                                class="image-width" alt="...">
+                        <div *ngFor="let img of imagenes; let first = first" class="carousel-item text-center"
+                            [ngClass]="{'active': first}">
+                            <img src="{{img}}" class="image-width" alt="...">
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"

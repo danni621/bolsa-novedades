@@ -21,6 +21,7 @@ export class BolsaNovedadesComponent {
 
   guia = new GuiaModule();
   guiaLiberada: string = '';
+  imagenes: any[] = [];
 
   constructor(private modalService: NgbModal,
     private functions: Functions,
@@ -41,8 +42,21 @@ export class BolsaNovedadesComponent {
   VerEvidencias(event: Event) {
     event.preventDefault();
     $('#loader').removeClass('hide');
-    $('#idVerEvidenciasModal').modal('show');
-    $('#loader').addClass('hide');
+    this.service.ConsumoServicio('cargarimagenes', this.guia.guia).subscribe({
+      next: (res) => {
+        this.imagenes = res;
+        $('#idVerEvidenciasModal').modal('show');
+        $('#loader').addClass('hide');
+      },
+      error: (err) => {
+        if (err.status == 400) {
+          this.functions.PopUpAlert('', 'info', err.error, true, false);
+          $('#loader').addClass('hide');
+        } else {
+          this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false);
+        }
+      }
+    });
   }
 
   ChangeColor() {
@@ -71,7 +85,7 @@ export class BolsaNovedadesComponent {
   }
 
   ConsumoEnCabezado() {
-    this.service.ConsultarEncabezadoyInfoGuia('consultarpendientesliquidacion', '').subscribe({
+    this.service.ConsumoServicio('consultarpendientesliquidacion', '').subscribe({
       next: (res) => {
         this.guia = this.utilitarios.CargarInfoEncabezado(res);
         this.ConsumoInfoGuia(this.guia);
@@ -83,7 +97,7 @@ export class BolsaNovedadesComponent {
   }
 
   ConsumoInfoGuia(guia: any) {
-    this.service.ConsultarEncabezadoyInfoGuia('consultarinfoliquidacion', this.guia.guia).subscribe({
+    this.service.ConsumoServicio('consultarinfoliquidacion', this.guia.guia).subscribe({
       next: (res) => {
         this.guia = this.utilitarios.CargarInfoGuia(res);
         $('#loader').addClass('hide');

@@ -14,7 +14,7 @@ export class Service {
     constructor(private http: HttpClient) {
     }
 
-    ConsultarEncabezadoyInfoGuia(metodo: any, data: any) {
+    ConsumoServicio(metodo: any, data: any) {
         return this.http.post(`${environment.url}${metodo}`, data).pipe(
             map((resp: any) => {
                 return resp;

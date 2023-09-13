@@ -14,6 +14,7 @@ export class ModalsComponent {
 
   @Input() guia = new GuiaModule();
   @Input() guiaLiberada: string = '';
+  @Input() imagenes: any[] = [];
 
   constructor(private htmlService: HtmlService,
     private functions: Functions) {
