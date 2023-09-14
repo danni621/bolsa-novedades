@@ -107,4 +107,25 @@ export class HtmlService {
 
         return html;
     }
+
+    InfoHtml(info: any, image: any) {
+        const html = '<div class="row custom-row">' +
+            '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
+            '<img src="././assets/img/' + image + '" alt="" class="img-fluid card-img-center rounded-start' +
+            'style="width: 120px;">' +
+            '</div>' +
+            '</div>' +
+            '<div class="row custom-row">' +
+            '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
+            '</div>' +
+            '</div>' +
+            '<div class="row">' +
+            '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
+            '<p class="text-muted-2">' +
+            '<span class="text-line p-1">' + info + '</span>' +
+            '</p>' +
+            '</div>' +
+            '</div>';
+        return html;
+    }
 }

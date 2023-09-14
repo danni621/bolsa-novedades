@@ -24,6 +24,7 @@ export class BolsaNovedadesComponent {
   guia = new GuiaModule();
   guiaBuscar: string = '';
   GuiaLiberar: string = '';
+  GuiaEnGestion: string = '';
   imagenes: any[] = [];
 
   constructor(private modalService: NgbModal,
@@ -54,11 +55,8 @@ export class BolsaNovedadesComponent {
       this.GuiaLiberar = "";
     }
 
-    if (this.guiaBuscar != "") {
-      this.CambiosEstadoLiq(this.guiaBuscar, 1, 2);
-    }
 
-    this.ConsumoEnCabezado();
+    this.ConsumoHeader();
     this.ChangeColor();
   }
 
@@ -107,16 +105,15 @@ export class BolsaNovedadesComponent {
     $("#idConfRechazo").modal('show');
   }
 
-  ConsumoEnCabezado() {
+  ConsumoHeader() {
     this.service.ConsumoServicio('consultarpendientesliquidacion', '').subscribe({
       next: (res) => {
-        this.guia = this.utilitarios.CargarInfoEncabezado(res);
-        if (this.guia.cantidadguias == '0') {
+        if (res.GuiaGestionar == '0') {
           this.functions.PopUpAlert('', 'info', 'No hay guías pendientes por gestionar', false, false, true);
         } else {
-          this.guia.guia = ((this.guiaBuscar != "") ? this.guiaBuscar : this.guia.guia);
-          localStorage.setItem("GuiaPorAuditar", this.guia.guia);
-          this.ConsumoInfoGuia(this.guia.guia);
+          res.GuiaGestionar = ((this.guiaBuscar != "") ? this.guiaBuscar : res.GuiaGestionar);
+          this.GuiaEnGestion = res.GuiaGestionar;
+          this.ConsumoInfoGuia(res.GuiaGestionar);
         }
       },
       error: (err) => {
@@ -128,17 +125,13 @@ export class BolsaNovedadesComponent {
   ConsumoInfoGuia(guia: any) {
     this.service.ConsumoServicio('consultarinfoliquidacion', guia).subscribe({
       next: (res) => {
+        this.CambiosEstadoLiq(guia, 1, 2);
         this.guia = this.utilitarios.CargarInfoGuia(res);
-        if (this.guiaBuscar != "") {
-          this.guiaBuscar = "";
-          $('#loader').addClass('hide');
-        } else {
-          this.CambiosEstadoLiq(this.guia.guia, 1, 2);
-        }
+
       },
       error: (err) => {
         if (err.status == 400) {
-          this.functions.PopUpAlert('', 'info', err.error, true, false, false);
+          this.functions.PopUpAlert('', 'info', err.error, true, false, true);
         } else {
           this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
         }
@@ -158,7 +151,8 @@ export class BolsaNovedadesComponent {
 
     this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado).subscribe({
       next: (res) => {
-        $('#loader').addClass('hide');
+        console.log(res);
+        this.ConsumoEncabezado();
       },
       error: (err) => {
         this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
@@ -167,8 +161,27 @@ export class BolsaNovedadesComponent {
 
   }
 
+  ConsumoEncabezado() {
+
+    this.service.ConsumoServicio('consultarpendientesliquidacion', '').subscribe({
+      next: (res) => {
+        this.guia = this.utilitarios.CargarInfoEncabezado(res);
+        $('#loader').addClass('hide');
+        this.guia.guia = this.GuiaEnGestion;
+        if (this.guiaBuscar != "") {
+          this.guiaBuscar = "";
+        }
+        localStorage.setItem("GuiaPorAuditar", this.guia.guia);
+      },
+      error: (err) => {
+        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+      }
+    });
+  }
+
   BuscarGuia() {
     if (this.guia.guia != $("#inputGuia").val()) {
+      $('#loader').removeClass('hide');
       this.guiaBuscar = $("#inputGuia").val();
       this.functions.PopUpBuscar(this.htmlservice.BuscarHtml(this.guia, this.guiaBuscar), this.guia, this.guiaBuscar);
     }

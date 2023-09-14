@@ -67,7 +67,10 @@ export class Functions {
         });
     }
 
-    PopUpBuscar(html: any, guia: any, guiaBuscar: any) {
+    PopUpBuscar(html: any,
+        guia: any,
+        guiaBuscar: any) {
+
         Swal.fire({
             allowOutsideClick: false,
             html: html,
@@ -80,9 +83,29 @@ export class Functions {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                localStorage.setItem("GuiaLiberar", guia.guia);
-                localStorage.setItem("GuiaBuscar", guiaBuscar);
-                window.location.href = '/bolsanovedades';
+                this.service.ConsumoServicio('consultarinfoliquidacion', guiaBuscar).subscribe({
+                    next: (res) => {
+
+                        localStorage.setItem("GuiaLiberar", guia.guia);
+                        localStorage.setItem("GuiaBuscar", guiaBuscar);
+                        window.location.href = '/bolsanovedades';
+                    },
+                    error: (err) => {
+                        let image: string = "";
+                        switch (err.error) {
+                            case "La guía no cuenta con auditoría pendiente para gestionar":
+                                image = 'guía_sin_auditoria.svg';
+                                break;
+                            case "La guía ya cuenta con auditoria gestionada":
+                                image = 'guia_auditada.svg';
+                                break;
+                            case "La guía esta siendo gestionada por otro usuario":
+                                image = 'guía_sin_auditoria.svg';
+                                break;
+                                this.PopUpInfo(this.html.InfoHtml(err.error, image), guia.guia);
+                        }
+                    }
+                });
             } else {
                 $("#inputGuia").val(guia.guia);
             }
@@ -90,26 +113,51 @@ export class Functions {
 
     }
 
-    PopUpAlert(title: any, icon: any, text: any, allowOutsideClick: boolean = false, loading: boolean = false, confirm: boolean = false) {
+    PopUpAlert(title: any,
+        icon: any, text: any,
+        allowOutsideClick: boolean = false,
+        loading: boolean = false,
+        confirm: boolean = false) {
 
         Swal.fire({
             allowOutsideClick: allowOutsideClick,
             title: title,
             icon: icon,
             text: text,
-            confirmButtonText: 'OK',
+            confirmButtonText: 'Aceptar',
             customClass: {
                 confirmButton: 'my-custom-button-class',
             },
         }).then(resp => {
-            if (resp.isConfirmed && confirm)
+            if (resp.isConfirmed && confirm) {
+                this.removeItemsToken();
                 window.location.href = environment.urlLogin;
+            }
         });
 
         if (loading)
             Swal.showLoading();
 
     }
+
+
+    PopUpInfo(html: any, guia: any) {
+        console.log(guia, ' guia - a volver a gestionar');
+        Swal.fire({
+            allowOutsideClick: false,
+            html: html,
+            confirmButtonText: 'Aceptar',
+            customClass: {
+                confirmButton: 'my-custom-button-class',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#inputGuia").val(guia);
+                $('#loader').addClass('hide');
+            }
+        });
+    }
+
 
     SesionCaducada() {
         Swal.fire({
