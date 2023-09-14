@@ -13,7 +13,7 @@ declare var $: any;
 export class ModalsComponent {
 
   @Input() guia = new GuiaModule();
-  @Input() guiaLiberada: string = '';
+  @Input() guiaBuscar: string = '';
   @Input() imagenes: any[] = [];
 
   constructor(private htmlService: HtmlService,

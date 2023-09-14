@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 import { HtmlService } from '../components/html/html.module';
 import { PdfService } from '../components/pdf/pdfservice.module';
 import { environment } from 'src/environments/environment';
+import { Service } from '../services/services';
+import { CambiosEstadoLiquidacionModule } from '../module/cambiostestadoliq.module';
 
 declare var $: any;
 
@@ -13,7 +15,9 @@ declare var $: any;
 })
 export class Functions {
 
-    constructor(private html: HtmlService, private pdfService: PdfService) { }
+    constructor(private html: HtmlService,
+        private pdfService: PdfService,
+        private service: Service) { }
 
     PopUpAprobar(html: any, guia: any) {
         Swal.fire({
@@ -63,7 +67,7 @@ export class Functions {
         });
     }
 
-    PopUpBuscar(html: any, guia: any, guiaLiberada: any) {
+    PopUpBuscar(html: any, guia: any, guiaBuscar: any) {
         Swal.fire({
             allowOutsideClick: false,
             html: html,
@@ -76,7 +80,9 @@ export class Functions {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                alert('Consumir busqueda');
+                localStorage.setItem("GuiaLiberar", guia.guia);
+                localStorage.setItem("GuiaBuscar", guiaBuscar);
+                window.location.href = '/bolsanovedades';
             } else {
                 $("#inputGuia").val(guia.guia);
             }
@@ -84,7 +90,7 @@ export class Functions {
 
     }
 
-    PopUpAlert(title: any, icon: any, text: any, allowOutsideClick: boolean = false, loading: boolean = false) {
+    PopUpAlert(title: any, icon: any, text: any, allowOutsideClick: boolean = false, loading: boolean = false, confirm: boolean = false) {
 
         Swal.fire({
             allowOutsideClick: allowOutsideClick,
@@ -94,7 +100,10 @@ export class Functions {
             confirmButtonText: 'OK',
             customClass: {
                 confirmButton: 'my-custom-button-class',
-            }
+            },
+        }).then(resp => {
+            if (resp.isConfirmed && confirm)
+                window.location.href = environment.urlLogin;
         });
 
         if (loading)
@@ -112,8 +121,31 @@ export class Functions {
             confirmButtonText: 'Aceptar',
         }).then(resp => {
             if (resp.isConfirmed)
-                window.location.href = environment.urlLogin;
+                if (localStorage.getItem("GuiaPorAuditar") != null && localStorage.getItem("GuiaPorAuditar") != "") {
+                    let estado: CambiosEstadoLiquidacionModule = {
+                        NumeroGuia: parseInt(localStorage.getItem("GuiaPorAuditar") ?? '0'),
+                        IdTipoNovedad: 1,
+                        IdEstadoNovedad: 1,
+                        CreadoPor: localStorage.getItem('nombreusuario') ?? 'SISTEMA'
+                    }
+
+                    this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado).subscribe({
+                        next: (res) => {
+                            console.log(res);
+                        },
+                        error: (err) => {
+                            console.log(err);
+                        }
+                    });
+                }
+            this.removeItemsToken();
+            window.location.href = environment.urlLogin;
         });
 
     }
+
+    removeItemsToken() {
+        localStorage.clear();
+    }
+
 }

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Service } from '../../services/services';
 import { GuiaModule } from '../../module/guia.module';
+import { CambiosEstadoLiquidacionModule } from '../../module/cambiostestadoliq.module';
 import { Functions } from '../../functions/functions';
 import { HtmlService } from '../../components/html/html.module';
 
@@ -18,10 +18,12 @@ declare var $: any;
   templateUrl: './bolsa-novedades.component.html',
   styleUrls: ['./bolsa-novedades.component.css']
 })
+
 export class BolsaNovedadesComponent {
 
   guia = new GuiaModule();
-  guiaLiberada: string = '';
+  guiaBuscar: string = '';
+  GuiaLiberar: string = '';
   imagenes: any[] = [];
 
   constructor(private modalService: NgbModal,
@@ -41,6 +43,21 @@ export class BolsaNovedadesComponent {
       this.authguard.canActivate();
       localStorage.setItem('canActivateExecuted', 'true');
     }*/
+    localStorage.setItem("nombreusuario", 'danieljtorresc');
+    this.guiaBuscar = localStorage.getItem("GuiaBuscar") ?? '';
+    this.GuiaLiberar = localStorage.getItem("GuiaLiberar") ?? '';
+    localStorage.removeItem("GuiaBuscar");
+    localStorage.removeItem("GuiaLiberar");
+
+    if (this.GuiaLiberar != "") {
+      this.CambiosEstadoLiq(this.GuiaLiberar, 1, 1);
+      this.GuiaLiberar = "";
+    }
+
+    if (this.guiaBuscar != "") {
+      this.CambiosEstadoLiq(this.guiaBuscar, 1, 2);
+    }
+
     this.ConsumoEnCabezado();
     this.ChangeColor();
   }
@@ -94,34 +111,66 @@ export class BolsaNovedadesComponent {
     this.service.ConsumoServicio('consultarpendientesliquidacion', '').subscribe({
       next: (res) => {
         this.guia = this.utilitarios.CargarInfoEncabezado(res);
-        this.ConsumoInfoGuia(this.guia);
+        if (this.guia.cantidadguias == '0') {
+          this.functions.PopUpAlert('', 'info', 'No hay guías pendientes por gestionar', false, false, true);
+        } else {
+          this.guia.guia = ((this.guiaBuscar != "") ? this.guiaBuscar : this.guia.guia);
+          localStorage.setItem("GuiaPorAuditar", this.guia.guia);
+          this.ConsumoInfoGuia(this.guia.guia);
+        }
       },
       error: (err) => {
-        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false);
+        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
       }
     });
   }
 
   ConsumoInfoGuia(guia: any) {
-    this.service.ConsumoServicio('consultarinfoliquidacion', this.guia.guia).subscribe({
+    this.service.ConsumoServicio('consultarinfoliquidacion', guia).subscribe({
       next: (res) => {
         this.guia = this.utilitarios.CargarInfoGuia(res);
-        $('#loader').addClass('hide');
+        if (this.guiaBuscar != "") {
+          this.guiaBuscar = "";
+          $('#loader').addClass('hide');
+        } else {
+          this.CambiosEstadoLiq(this.guia.guia, 1, 2);
+        }
       },
       error: (err) => {
         if (err.status == 400) {
-          this.functions.PopUpAlert('', 'info', err.error, true, false);
+          this.functions.PopUpAlert('', 'info', err.error, true, false, false);
         } else {
-          this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false);
+          this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
         }
       }
     });
   }
 
+
+  CambiosEstadoLiq(guia: any, idtiponovedad: number, idestadonovedad: number) {
+
+    let estado: CambiosEstadoLiquidacionModule = {
+      NumeroGuia: guia,
+      IdTipoNovedad: idtiponovedad,
+      IdEstadoNovedad: idestadonovedad,
+      CreadoPor: localStorage.getItem('nombreusuario') ?? 'SISTEMA'
+    }
+
+    this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado).subscribe({
+      next: (res) => {
+        $('#loader').addClass('hide');
+      },
+      error: (err) => {
+        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+      }
+    });
+
+  }
+
   BuscarGuia() {
     if (this.guia.guia != $("#inputGuia").val()) {
-      this.guiaLiberada = $("#inputGuia").val();
-      this.functions.PopUpBuscar(this.htmlservice.BuscarHtml(this.guia, this.guiaLiberada), this.guia, this.guiaLiberada);
+      this.guiaBuscar = $("#inputGuia").val();
+      this.functions.PopUpBuscar(this.htmlservice.BuscarHtml(this.guia, this.guiaBuscar), this.guia, this.guiaBuscar);
     }
   }
 

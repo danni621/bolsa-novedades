@@ -31,7 +31,6 @@ export class AuthGuard {
                     window.location.href = '/bolsanovedades';
                 },
                 error: (err) => {
-                    this.removeItemsToken();
                     this.functions.SesionCaducada();
                 }
             });
@@ -43,12 +42,10 @@ export class AuthGuard {
                     window.location.href = '/bolsanovedades';
                 },
                 error: (err) => {
-                    this.removeItemsToken();
                     this.functions.SesionCaducada();
                 }
             });
         } else {
-            this.removeItemsToken();
             this.functions.SesionCaducada();
         }
     }
@@ -56,11 +53,7 @@ export class AuthGuard {
     setItemsToken(token: any, res: any) {
         localStorage.setItem("validarToken", JSON.stringify(token));
         localStorage.setItem("respuestaValidarToken", JSON.stringify(res.body));
-    }
-
-    removeItemsToken() {
-        localStorage.removeItem("validarToken")
-        localStorage.removeItem("respuestaValidarToken");
+        localStorage.setItem("nombreusuario", token.nombreusuario);
     }
 
 }
