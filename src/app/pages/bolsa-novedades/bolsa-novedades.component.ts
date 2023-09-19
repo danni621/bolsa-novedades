@@ -9,7 +9,15 @@ import { HtmlService } from '../../components/html/html.module';
 
 import { Utilitarios } from '../../utilitarios/utilitarios.component';
 import { AuthGuard } from '../../guards/auth.guard';
+import { EstadosGuia } from '../../enums/enums';
 
+/*import { jsPDF } from "jspdf";
+
+// @ts-ignore
+import { font } from "../../../assets/font/leelawui/leelawad-normal";
+// @ts-ignore
+import { fontbold } from "../../../assets/font/leelawui/leelawdb-normal";
+*/
 
 declare var $: any;
 
@@ -51,7 +59,7 @@ export class BolsaNovedadesComponent {
     localStorage.removeItem("GuiaLiberar");
 
     if (this.GuiaLiberar != "") {
-      this.CambiosEstadoLiq(this.GuiaLiberar, 1, 1);
+      this.CambiosEstadoLiq(this.GuiaLiberar, 1, EstadosGuia.PorAuditor);
       this.GuiaLiberar = "";
     }
 
@@ -125,7 +133,7 @@ export class BolsaNovedadesComponent {
   ConsumoInfoGuia(guia: any) {
     this.service.ConsumoServicio('consultarinfoliquidacion', guia).subscribe({
       next: (res) => {
-        this.CambiosEstadoLiq(guia, 1, 2);
+        this.CambiosEstadoLiq(guia, 1, EstadosGuia.Auditando);
         this.guia = this.utilitarios.CargarInfoGuia(res);
 
       },

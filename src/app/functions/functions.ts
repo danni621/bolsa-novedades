@@ -6,6 +6,7 @@ import { PdfService } from '../components/pdf/pdfservice.module';
 import { environment } from 'src/environments/environment';
 import { Service } from '../services/services';
 import { CambiosEstadoLiquidacionModule } from '../module/cambiostestadoliq.module';
+import { EstadosGuia } from '../enums/enums';
 
 declare var $: any;
 
@@ -173,7 +174,7 @@ export class Functions {
                     let estado: CambiosEstadoLiquidacionModule = {
                         NumeroGuia: parseInt(localStorage.getItem("GuiaPorAuditar") ?? '0'),
                         IdTipoNovedad: 1,
-                        IdEstadoNovedad: 1,
+                        IdEstadoNovedad: EstadosGuia.PorAuditor,
                         CreadoPor: localStorage.getItem('nombreusuario') ?? 'SISTEMA'
                     }
 
