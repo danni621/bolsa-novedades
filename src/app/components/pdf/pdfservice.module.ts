@@ -72,7 +72,7 @@ export class PdfService {
         doc.addImage('../../assets/img/normas.jpg', 'JPEG', x + 120, y + 2, 32, 23);
 
         doc.setFontSize(12);
-        doc.text('COMPROBANTE DE VENTA No.', x + 152, y + 13);
+        doc.text('FACTURA DE VENTA No.', x + 152, y + 13);
 
         doc.text('INTER RAPIDISIMO S.A. NIT: 800.251.569-7', x + 2, y + 38);
         doc.setFontSize(10);

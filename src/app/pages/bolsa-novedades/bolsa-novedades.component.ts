@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { Service } from '../../services/services';
 import { GuiaModule } from '../../module/guia.module';
 import { RespuestaCargarImagenes } from '../../module/respuestacargarimagenes.module';
@@ -37,14 +38,14 @@ export class BolsaNovedadesComponent {
   }
 
   async ngOnInit(): Promise<void> {
-
     $('#loader').removeClass('hide');
 
-    const canActivateExecuted = localStorage.getItem('canActivateExecuted');
+    /*const canActivateExecuted = localStorage.getItem('canActivateExecuted');
     if (!canActivateExecuted) {
       await this.authguard.canActivate();
       localStorage.setItem('canActivateExecuted', 'true');
-    }
+    }*/
+    //750000026419
 
     this.guiaBuscar = localStorage.getItem("GuiaBuscar") ?? '';
     this.GuiaLiberar = localStorage.getItem("GuiaLiberar") ?? '';
@@ -220,7 +221,6 @@ export class BolsaNovedadesComponent {
       }
     });
   }
-
   BuscarGuia() {
     if (this.guia.guia != $("#inputGuia").val()) {
       $('#loader').removeClass('hide');
