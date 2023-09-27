@@ -34,14 +34,14 @@ export class ModalsComponent {
     $('#idVerEvidenciasModal').modal('hide');
   }
 
-  Aprobar() {
+  async Aprobar() {
     $("#idConfAprobacion").modal('hide');
     $('#loader').removeClass('hide');
     let auditoria = this.CrearDataAuditoria(EstadosGuia.Aprobado, '');
-    this.ConsumoAuditoria(auditoria, true);
+    await this.ConsumoAuditoria(auditoria, true);
   }
 
-  EnviarRechazo() {
+  async EnviarRechazo() {
     let value = "";
     if ($('#causalRechazo1').prop('checked')) {
       value = $('#causalRechazo1').val();
@@ -56,7 +56,7 @@ export class ModalsComponent {
       $('#loader').removeClass('hide');
       $("#idRechazadoModal").modal("hide");
       let auditoria = this.CrearDataAuditoria(EstadosGuia.Rechazado, value);
-      this.ConsumoAuditoria(auditoria, false);
+      await this.ConsumoAuditoria(auditoria, false);
     } else {
       alert("Debe escoger al menos 1 opción");
     }
@@ -87,31 +87,21 @@ export class ModalsComponent {
     return auditoria;
   }
 
-  ConsumoAuditoria(auditoria: any, aprobrecha: boolean) {
+  async ConsumoAuditoria(auditoria: any, aprobrecha: boolean) {
 
-    this.service.ConsumoToken().subscribe({
-      next: (resp: any) => {
-        this.token = resp.IdToken;
-        this.service.ConsumoServicio("guardarresultadoauditoria", auditoria, this.token).subscribe({
-          next: (res) => {
-            $('#loader').addClass('hide');
-            if (aprobrecha) {
-              let datosfactura: ResponseDatosFactura = res;
-              this.removeItemns();
-              this.functions.PopUpAprobar(this.htmlService.AprobarHtml(this.guia), this.guia, datosfactura);
-            } else {
-              this.removeItemns();
-              this.functions.PopUpRechazar(this.htmlService.RechazarHtml(this.guia), this.guia);
-            }
-          },
-          error: (err) => {
-            $('#loader').addClass('hide');
-            this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-          }
-        });
-      }, error: (err: any) => {
-        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+    await this.service.ConsumoServicio('guardarresultadoauditoria', auditoria).then(res => {
+      $('#loader').addClass('hide');
+      if (aprobrecha) {
+        let datosfactura: ResponseDatosFactura = res;
+        this.removeItemns();
+        this.functions.PopUpAprobar(this.htmlService.AprobarHtml(this.guia), this.guia, datosfactura);
+      } else {
+        this.removeItemns();
+        this.functions.PopUpRechazar(this.htmlService.RechazarHtml(this.guia), this.guia);
       }
+    }).catch(err => {
+      $('#loader').addClass('hide');
+      this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
     });
 
   }

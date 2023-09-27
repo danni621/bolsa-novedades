@@ -40,12 +40,11 @@ export class BolsaNovedadesComponent {
   async ngOnInit(): Promise<void> {
     $('#loader').removeClass('hide');
 
-    /*const canActivateExecuted = localStorage.getItem('canActivateExecuted');
+    const canActivateExecuted = localStorage.getItem('canActivateExecuted');
     if (!canActivateExecuted) {
       await this.authguard.canActivate();
       localStorage.setItem('canActivateExecuted', 'true');
-    }*/
-    //750000026419
+    }
 
     this.guiaBuscar = localStorage.getItem("GuiaBuscar") ?? '';
     this.GuiaLiberar = localStorage.getItem("GuiaLiberar") ?? '';
@@ -63,30 +62,21 @@ export class BolsaNovedadesComponent {
 
   }
 
-  VerEvidencias(event: Event) {
+
+  async VerEvidencias(event: Event) {
     event.preventDefault();
     $('#loader').removeClass('hide');
-    this.service.ConsumoToken().subscribe({
-      next: (resp: any) => {
-        this.token = resp.IdToken;
-        this.service.ConsumoServicio('cargarimagenes', this.guia.guia, this.token).subscribe({
-          next: (res: any) => {
-            this.imagenes = res;
-            $('#idVerEvidenciasModal').modal('show');
-            $('#loader').addClass('hide');
-          },
-          error: (err: any) => {
-            if (err.status == 400) {
-              this.functions.PopUpAlert('', 'info', err.error, true, false);
-              $('#loader').addClass('hide');
-            } else {
-              this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false);
-            }
-          }
-        });
-      },
-      error: (err: any) => {
-        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+    await this.service.ConsumoServicio('cargarimagenes', this.guia.guia).then(res => {
+      this.imagenes = res;
+      $('#idVerEvidenciasModal').modal('show');
+      $('#loader').addClass('hide');
+
+    }).catch(err => {
+      if (err.status == 400) {
+        this.functions.PopUpAlert('', 'info', err.error, true, false);
+        $('#loader').addClass('hide');
+      } else {
+        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false);
       }
     });
   }
@@ -117,52 +107,32 @@ export class BolsaNovedadesComponent {
   }
 
   async ConsumoHeader() {
-    this.service.ConsumoToken().subscribe({
-      next: (resp: any) => {
-        this.token = resp.IdToken;
 
-        this.service.ConsumoServicio('consultarpendientesliquidacion', '', this.token).subscribe({
-          next: (res: any) => {
-            if (res.GuiaGestionar == '0') {
-              this.functions.PopUpAlert('', 'info', 'No hay guías pendientes por gestionar', false, false, true);
-            } else {
-              res.GuiaGestionar = ((this.guiaBuscar != "") ? this.guiaBuscar : res.GuiaGestionar);
-              this.GuiaEnGestion = res.GuiaGestionar;
-              this.ConsumoInfoGuia(this.GuiaEnGestion);
-            }
-          },
-          error: (err: any) => {
-            this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-          }
-        });
-
-      },
-      error: (err: any) => {
-        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+    await this.service.ConsumoServicio('consultarpendientesliquidacion', '').then(res => {
+      if (res.GuiaGestionar == '0') {
+        this.functions.PopUpAlert('', 'info', 'No hay guías pendientes por gestionar', false, false, true);
+      } else {
+        res.GuiaGestionar = ((this.guiaBuscar != "") ? this.guiaBuscar : res.GuiaGestionar);
+        this.GuiaEnGestion = res.GuiaGestionar;
+        this.ConsumoInfoGuia(this.GuiaEnGestion);
       }
+    }).catch(err => {
+      this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
     });
+
   }
 
-  ConsumoInfoGuia(guia: any) {
-    this.service.ConsumoToken().subscribe({
-      next: (resp: any) => {
-        this.token = resp.IdToken;
-        this.service.ConsumoServicio('consultarinfoliquidacion', guia, this.token).subscribe({
-          next: (res: any) => {
-            this.CambiosEstadoLiq(guia, 1, EstadosGuia.Auditando);
-            this.guia = this.utilitarios.CargarInfoGuia(res);
-            this.ChangeColor();
 
-          },
-          error: (err: any) => {
-            if (err.status == 400) {
-              this.functions.PopUpAlert('', 'info', err.error, true, false, true);
-            } else {
-              this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-            }
-          }
-        });
-      }, error: (err: any) => {
+  async ConsumoInfoGuia(guia: any) {
+
+    await this.service.ConsumoServicio('consultarinfoliquidacion', guia).then(res => {
+      this.CambiosEstadoLiq(guia, 1, EstadosGuia.Auditando);
+      this.guia = this.utilitarios.CargarInfoGuia(res);
+      this.ChangeColor();
+    }).catch(err => {
+      if (err.status == 400) {
+        this.functions.PopUpAlert('', 'info', err.error, true, false, true);
+      } else {
         this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
       }
     });
@@ -178,49 +148,30 @@ export class BolsaNovedadesComponent {
       CreadoPor: localStorage.getItem('nombreusuario') ?? 'SISTEMA'
     }
 
-    this.service.ConsumoToken().subscribe({
-      next: (resp: any) => {
-        this.token = resp.IdToken;
-        this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado, this.token).subscribe({
-          next: (res: any) => {
-            if (!consumenca) {
-              this.ConsumoEncabezado();
-            }
-          },
-          error: (err: any) => {
-            this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-          }
-        });
-      }, error: (err: any) => {
-        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+    await this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado).then(res => {
+      if (!consumenca) {
+        this.ConsumoEncabezado();
       }
+    }).catch(err => {
+      this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
     });
 
   }
 
-  ConsumoEncabezado() {
-    this.service.ConsumoToken().subscribe({
-      next: (resp: any) => {
-        this.token = resp.IdToken;
-        this.service.ConsumoServicio('consultarpendientesliquidacion', '', this.token).subscribe({
-          next: (res: any) => {
-            this.guia = this.utilitarios.CargarInfoEncabezado(res);
-            $('#loader').addClass('hide');
-            this.guia.guia = this.GuiaEnGestion;
-            if (this.guiaBuscar != "") {
-              this.guiaBuscar = "";
-            }
-            localStorage.setItem("GuiaPorAuditar", this.guia.guia);
-          },
-          error: (err: any) => {
-            this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-          }
-        });
-      }, error: (err: any) => {
-        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+  async ConsumoEncabezado() {
+    await this.service.ConsumoServicio('consultarpendientesliquidacion', '').then(res => {
+      this.guia = this.utilitarios.CargarInfoEncabezado(res);
+      $('#loader').addClass('hide');
+      this.guia.guia = this.GuiaEnGestion;
+      if (this.guiaBuscar != "") {
+        this.guiaBuscar = "";
       }
+      localStorage.setItem("GuiaPorAuditar", this.guia.guia);
+    }).catch(err => {
+      this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
     });
   }
+
   BuscarGuia() {
     if (this.guia.guia != $("#inputGuia").val()) {
       $('#loader').removeClass('hide');

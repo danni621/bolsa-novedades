@@ -298,14 +298,14 @@ export class PdfService {
         doc.text('De acuerdo a la auditoría de peso realizada el día ' + arrayco[0] || '', x, y + 80);
 
         doc.setTextColor(242, 63, 60);
-        doc.text(cadena || '', x + 83, y + 80);
+        doc.text(cadena || '', x + 85, y + 80);
         doc.setTextColor(0, 0, 0);
         doc.setFont("leelawad");
-        doc.text('por medio de la', x + 121, y + 80);
+        doc.text('por medio de la', x + 123, y + 80);
         doc.setTextColor(242, 63, 60);
-        doc.text('herramienta App', x + 144, y + 80);
+        doc.text('herramienta App', x + 146, y + 80);
         doc.setTextColor(0, 0, 0);
-        doc.text('el envío admitido', x + 169, y + 80);
+        doc.text('el envío admitido', x + 171, y + 80);
 
         doc.setFontSize(9);
         doc.setTextColor(0, 0, 0);

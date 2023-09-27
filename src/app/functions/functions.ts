@@ -26,7 +26,7 @@ export class Functions {
         private service: Service,
         private utilitarios: Utilitarios) { }
 
-    PopUpAprobar(html: any, guia: any, datafactura: any) {
+    async PopUpAprobar(html: any, guia: any, datafactura: any) {
 
         Swal.fire({
             allowOutsideClick: false,
@@ -38,31 +38,19 @@ export class Functions {
         }).then((result) => {
             if (result.isConfirmed) {
                 $('#loader').removeClass('hide');
-                this.service.ConsumoToken().subscribe({
-                    next: (resp: any) => {
-                        this.token = resp.IdToken;
-                        this.service.ConsumoServicio('cargarimagenes', guia.guia, this.token).subscribe({
-                            next: (res: any) => {
-                                this.imagenes = res;
+                this.service.ConsumoServicio('cargarimagenes', guia.guia).then(res => {
+                    this.imagenes = res;
 
-                                let facturapos = this.pdfService.GenerarFactura(datafactura);
-                                let generarcomunicado = this.pdfService.GenerarComunicadoInterno(guia, datafactura, this.imagenes);
-                                let arraypos = facturapos.split(',');
-                                let arraycomunicado = generarcomunicado.split(',');
-                                let notificacion = this.utilitarios.CrearNotificacion(EstadosGuia.Aprobado, this.imagenes, guia, datafactura, arraypos[1], arraycomunicado[1]);
+                    let facturapos = this.pdfService.GenerarFactura(datafactura);
+                    let generarcomunicado = this.pdfService.GenerarComunicadoInterno(guia, datafactura, this.imagenes);
+                    let arraypos = facturapos.split(',');
+                    let arraycomunicado = generarcomunicado.split(',');
+                    let notificacion = this.utilitarios.CrearNotificacion(EstadosGuia.Aprobado, this.imagenes, guia, datafactura, arraypos[1], arraycomunicado[1]);
 
-                                $('#loader').addClass('hide');
-                                this.PopUpvVerEnviarFactura(this.html.VerFacturaPos(facturapos), notificacion);
-
-                            },
-                            error: (err: any) => {
-                                console.log(err, 'Error - Consumo servicio Imagenenes Aprobacion');
-                            }
-                        });
-                    },
-                    error: (err: any) => {
-                        this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-                    }
+                    $('#loader').addClass('hide');
+                    this.PopUpvVerEnviarFactura(this.html.VerFacturaPos(facturapos), notificacion);
+                }).catch(err => {
+                    console.log(err, 'Error - Consumo servicio Imagenenes Aprobacion');
                 });
             }
         });
@@ -96,26 +84,12 @@ export class Functions {
         }).then((result) => {
             if (result.isConfirmed) {
                 $('#loader').removeClass('hide');
-                this.service.ConsumoToken().subscribe({
-                    next: (resp: any) => {
-                        this.token = resp.IdToken;
-
-                        this.service.ConsumoServicio('enviarcorreo', notificacion, this.token).subscribe({
-                            next: (res: any) => {
-                                $('#loader').addClass('hide');
-                                this.PopUpAlert('', 'success', res, false, false, true);
-                            },
-                            error: (err: any) => {
-                                $('#loader').addClass('hide');
-                                this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-                            }
-                        });
-
-                    },
-                    error: (err: any) => {
-                        $('#loader').addClass('hide');
-                        this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-                    }
+                this.service.ConsumoServicio('enviarcorreo', notificacion).then(res => {
+                    $('#loader').addClass('hide');
+                    this.PopUpAlert('', 'success', res, false, false, true);
+                }).catch(err => {
+                    $('#loader').addClass('hide');
+                    this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
                 });
             }
         });
@@ -137,36 +111,25 @@ export class Functions {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                this.service.ConsumoToken().subscribe({
-                    next: (resp: any) => {
-                        this.token = resp.IdToken;
-                        this.service.ConsumoServicio('consultarinfoliquidacion', guiaBuscar, this.token).subscribe({
-                            next: (res) => {
-                                localStorage.removeItem("GuiaPorAuditar");
-                                localStorage.setItem("GuiaLiberar", guia.guia);
-                                localStorage.setItem("GuiaBuscar", guiaBuscar);
-                                window.location.href = '/bolsanovedades';
-                            },
-                            error: (err) => {
-                                let image: string = "";
-                                switch (err.error) {
-                                    case "La guía no cuenta con auditoría pendiente para gestionar":
-                                        image = 'guía_sin_auditoria.svg';
-                                        break;
-                                    case "La guía ya cuenta con auditoria gestionada":
-                                        image = 'guia_auditada.svg';
-                                        break;
-                                    case "La guía esta siendo gestionada por otro usuario":
-                                        image = 'guía_sin_auditoria.svg';
-                                        break;
-                                }
-                                this.PopUpInfo(this.html.InfoHtml(err.error, image), guia.guia);
-                            }
-                        });
-                    },
-                    error: (err: any) => {
-                        this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+                this.service.ConsumoServicio('consultarinfoliquidacion', guiaBuscar).then(res => {
+                    localStorage.removeItem("GuiaPorAuditar");
+                    localStorage.setItem("GuiaLiberar", guia.guia);
+                    localStorage.setItem("GuiaBuscar", guiaBuscar);
+                    window.location.href = '/bolsanovedades';
+                }).catch(err => {
+                    let image: string = "";
+                    switch (err.error) {
+                        case "La guía no cuenta con auditoría pendiente para gestionar":
+                            image = 'guía_sin_auditoria.svg';
+                            break;
+                        case "La guía ya cuenta con auditoria gestionada":
+                            image = 'guia_auditada.svg';
+                            break;
+                        case "La guía esta siendo gestionada por otro usuario":
+                            image = 'guía_sin_auditoria.svg';
+                            break;
                     }
+                    this.PopUpInfo(this.html.InfoHtml(err.error, image), guia.guia);
                 });
             } else {
                 $("#inputGuia").val(guia.guia);
@@ -237,22 +200,10 @@ export class Functions {
                         IdEstadoNovedad: EstadosGuia.PorAuditor,
                         CreadoPor: localStorage.getItem('nombreusuario') ?? 'SISTEMA'
                     }
-
-                    this.service.ConsumoToken().subscribe({
-                        next: (resp: any) => {
-                            this.token = resp.IdToken;
-                            this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado, this.token).subscribe({
-                                next: (res) => {
-                                    console.log(res);
-                                },
-                                error: (err) => {
-                                    console.log(err);
-                                }
-                            });
-                        },
-                        error: (err: any) => {
-                            this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-                        }
+                    this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado).then(res => {
+                        console.log(res);
+                    }).catch(err => {
+                        console.log(err);
                     });
                 }
                 this.removeItemsToken();

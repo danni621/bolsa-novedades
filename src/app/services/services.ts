@@ -17,11 +17,14 @@ export class Service {
     constructor(private http: HttpClient) {
     }
 
-    ConsumoServicio(metodo: any, data: any, token: any) {
+    async ConsumoServicio(metodo: any, data: any) {
+
+        let res: any = await this.ConsumoToken();
+        this.token = res.IdToken;
 
         this.httoptions = {
             headers: new HttpHeaders({
-                'Token': token,
+                'Token': this.token,
                 'Content-Type': 'application/json'
             })
         }
@@ -30,7 +33,7 @@ export class Service {
             map((resp: any) => {
                 return resp;
             })
-        );
+        ).toPromise();
     }
 
     ValidarToken(metodo: any, token: any) {
@@ -41,16 +44,17 @@ export class Service {
         );
 
     }
-
-    ConsumoToken() {
+    async ConsumoToken() {
         const data = {
             Usuario: environment.Usuario,
             Password: environment.Password
         }
-        return this.http.post(`${environment.urlToken}`, data).pipe(
-            map((resp: any) => {
-                return resp;
-            })
-        );
+        try {
+            const resp = await this.http.post(`${environment.urlToken}`, data).toPromise();
+            return resp;
+        } catch (error) {
+            console.error('Error al obtener el token:', error);
+            throw error;
+        }
     }
 }
