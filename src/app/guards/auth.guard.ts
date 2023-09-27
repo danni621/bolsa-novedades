@@ -26,14 +26,23 @@ export class AuthGuard {
                     nombreusuario: parametrosXUrl.get('nombreusuario')!,
                     applicationname: environment.nombreAplicacion,
                 };
-                const res: any = await from(this.service.ValidarToken('/api/Autenticacion/ValidarToken', peticionValidarToken)).toPromise();
-                await this.setItemsToken(peticionValidarToken, res);
-                window.location.href = '/bolsanovedades';
+
+                await this.service.ValidarToken('/api/Autenticacion/ValidarToken', peticionValidarToken).then(res => {
+                    this.setItemsToken(peticionValidarToken, res);
+                    localStorage.setItem('canActivateExecuted', 'true');
+                    window.location.href = '/bolsanovedades';
+                }).catch(err => {
+                    this.functions.SesionCaducada();
+                });
             } else if (localStorage.getItem("validarToken") != null) {
                 let peticionValidarToken: Token = JSON.parse(localStorage.getItem("validarToken")!);
-                const res: any = await from(this.service.ValidarToken('/api/Autenticacion/ValidarToken', peticionValidarToken)).toPromise();
-                await this.setItemsToken(peticionValidarToken, res);
-                window.location.href = '/bolsanovedades';
+                await this.service.ValidarToken('/api/Autenticacion/ValidarToken', peticionValidarToken).then(res => {
+                    this.setItemsToken(peticionValidarToken, res);
+                    localStorage.setItem('canActivateExecuted', 'true');
+                    window.location.href = '/bolsanovedades';
+                }).catch(err => {
+                    this.functions.SesionCaducada();
+                });
             } else {
                 this.functions.SesionCaducada();
             }

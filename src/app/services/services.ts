@@ -36,13 +36,12 @@ export class Service {
         ).toPromise();
     }
 
-    ValidarToken(metodo: any, token: any) {
+    async ValidarToken(metodo: any, token: any) {
         return this.http.post(`${environment.UrlAutenticacion}${metodo}`, token).pipe(
             map((resp: any) => {
                 return resp;
             })
-        );
-
+        ).toPromise();
     }
     async ConsumoToken() {
         const data = {

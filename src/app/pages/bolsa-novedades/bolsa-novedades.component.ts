@@ -43,7 +43,6 @@ export class BolsaNovedadesComponent {
     const canActivateExecuted = localStorage.getItem('canActivateExecuted');
     if (!canActivateExecuted) {
       await this.authguard.canActivate();
-      localStorage.setItem('canActivateExecuted', 'true');
     }
 
     this.guiaBuscar = localStorage.getItem("GuiaBuscar") ?? '';
