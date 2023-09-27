@@ -14,7 +14,8 @@ export class PdfService {
 
     constructor() { }
 
-    GenerarFactura() {
+    GenerarFactura(datafactura: any) {
+
         const doc = new jsPDF({
             orientation: "landscape",
         });
@@ -32,7 +33,7 @@ export class PdfService {
         /*Negrilla*/
         doc.setFont('leelawdb');
 
-        const barcodeImage = this.generateQRCode(455);
+        const barcodeImage = this.generateQRCode(datafactura.ValorActual.ValorActual || '');
 
         doc.setFontSize(12);
 
@@ -40,16 +41,33 @@ export class PdfService {
         doc.addImage(barcodeImage, 'PNG', x + 212, y + 2, 60, 18);
         doc.setFontSize(12);
         doc.setFont('leelawdb');
-        doc.text('455', x + 240, y + 23);
+        doc.text(datafactura.ValorActual.ValorActual || '', x + 240, y + 23);
 
-        doc.setFontSize(9);
+        let arraycontri = '';
+        let cadenacontri = '';
+
+        if (datafactura.ResGrandesContribu != null && datafactura.ResGrandesContribu != "") {
+            arraycontri = datafactura.ResGrandesContribu.split(' ') || '';
+            cadenacontri = `${arraycontri[0]} ${arraycontri[1]} ${arraycontri[2]} ${arraycontri[3]} ${arraycontri[4]} ${arraycontri[5]} `;
+        }
+
+        let arrayresiva = '';
+        let cadenaresiva = '';
+
+        if (datafactura.ResIvaCree != null && datafactura.ResIvaCree != "") {
+            arrayresiva = datafactura.ResIvaCree.split(' ') || '';
+            cadenaresiva = `${arrayresiva[1]} ${arrayresiva[2]} ${arrayresiva[3]} ${arraycontri[4]} ${arraycontri[5]} `;
+        }
+
+
+        doc.setFontSize(8);
         doc.setFont('leelawdb');
         doc.text('Régimen Común, Grandes Contribuyentes', x + 60, y + 4);
-        doc.text('Res. 01124515111 de diciembre 24 de', x + 63, y + 8);
-        doc.text('2018, Retenedores de IVA y', x + 68, y + 12);
-        doc.text('Autorretenedores de Renta Res. 0070074', x + 60, y + 16);
-        doc.text('de Septiembre 17 de 2012. Licencia', x + 63, y + 20);
-        doc.text('MINTIC 001057', x + 75, y + 24);
+        doc.text('Res. ' + cadenacontri, x + 63, y + 8);
+        doc.text(arraycontri[6] + ' , Retenedores de IVA y' || '', x + 68, y + 12);
+        doc.text('Autorretenedores de Renta Res. ' + arrayresiva[0], x + 60, y + 16);
+        doc.text(cadenaresiva + '. Licencia' || '', x + 63, y + 20);
+        doc.text(datafactura.LicMinTic || '', x + 75, y + 24);
 
         doc.addImage('../../assets/img/normas.jpg', 'JPEG', x + 120, y + 2, 32, 23);
 
@@ -71,9 +89,9 @@ export class PdfService {
         doc.text('DIRECCIÓN:', x + 142, y + 50);
 
         doc.setFont("leelawad");
-        doc.text('1023005860', x + 60, y + 50);
-        doc.text('LEIDY PAOLA CASALLAS GOMEZ', x + 45, y + 62);
-        doc.text('CL 87 B SUR 3 A 21', x + 185, y + 56);
+        doc.text(datafactura.IdentifiacionRp || '', x + 60, y + 50);
+        doc.text(datafactura.NombreRp || '', x + 45, y + 62);
+        doc.text(datafactura.DireccionRp || '', x + 185, y + 56);
         /* Fin informacion del cliente*/
 
         /* Inicio informacion ciudad y fecha*/
@@ -89,10 +107,10 @@ export class PdfService {
         doc.text('FORMA DE PAGO:', x + 225, y + 70);
 
         doc.setFont("leelawad");
-        doc.text('BOGOTA', x + 25, y + 76);
-        doc.text('03/06/2023 09:40:38 AM', x + 82, y + 76);
-        doc.text('03/06/2023 09:40:38 AM', x + 152, y + 76);
-        doc.text('CONTADO', x + 231, y + 76);
+        doc.text(datafactura.CiudadRp || '', x + 25, y + 76);
+        doc.text(datafactura.FechaEmision || '', x + 82, y + 76);
+        doc.text(datafactura.FechaEmision || '', x + 152, y + 76);
+        doc.text(datafactura.FormaPago || '', x + 231, y + 76);
 
         /* Fin informacion ciudad y fecha*/
 
@@ -113,8 +131,8 @@ export class PdfService {
         doc.setFont('leelawdb');
         doc.text('1', x + 18, y + 115);
         doc.setFont('Arial', 'semibold');
-        doc.text('Admisión menor valor cobrado Factura N° 700100599087', x + 65, y + 115);
-        doc.text('$ 1.000.000,00', x + 236, y + 115);
+        doc.text(datafactura.DetalleFactura || '', x + 65, y + 115);
+        doc.text('$ ' + datafactura.Valor || '', x + 245, y + 115);
         doc.setFontSize(12);
         /* Fin cuerpo factura*/
 
@@ -124,12 +142,13 @@ export class PdfService {
         doc.cell(x + 2, y + 143, 125, 8, 'NOMBRE QUIEN RECIBE:', 1, 'center');
         doc.cell(x + 2, y + 151, 125, 8, 'IDENTIFICACION:', 0, 'center');
         doc.cell(x + 2, y + 159, 125, 8, 'VALOR LETRAS:', 1, 'center');
-        doc.setFontSize(12);
+        doc.setFontSize(10);
         doc.setFont('Arial', 'semibold');
-        doc.text('CINCO MIL PESOS M/CTE', x + 39.5, y + 165.5);
+        doc.text(datafactura.valorLetras + ' M/CTE' || '', x + 37.5, y + 165.5);
         /* Fin Fecha de recibo y subtotal, descuento etc*/
 
         /*Firma y sello*/
+        doc.setFontSize(12);
         doc.rect(x + 127, y + 135, 80, 32);
         doc.line(x + 142, y + 156, x + 192, y + 156);
         doc.text('FIRMA / SELLO DEL PUNTO', x + 140, y + 163);
@@ -163,10 +182,10 @@ export class PdfService {
         doc.text('TOTAL:', x + 215, y + 164);
         doc.setTextColor(0, 0, 0);
         doc.setFont("leelawad");
-        doc.text('$ 1.000.000,00', x + 247, y + 140);
-        doc.text('$ 1.000.000,00', x + 247, y + 148);
-        doc.text('$ 1.000.000,00', x + 247, y + 156);
-        doc.text('$ 1.000.000,00', x + 247, y + 164);
+        doc.text('$ ' + datafactura.Valor || '', x + 247, y + 140);
+        doc.text('', x + 247, y + 148);
+        doc.text('', x + 247, y + 156);
+        doc.text('$ ' + datafactura.Valor || '', x + 247, y + 164);
         /*Fin Subtotales y totales */
 
         /**Inicio Footer*/
@@ -199,7 +218,8 @@ export class PdfService {
         return canvas.toDataURL('image/png');
     }
 
-    GenerarComunicadoInterno() {
+    GenerarComunicadoInterno(dataguia: any, datafactura: any, imagenes: any) {
+
         const doc = new jsPDF({
             orientation: "portrait",
         });
@@ -218,8 +238,6 @@ export class PdfService {
         /*Negrilla*/
         doc.setFont('leelawdb');
 
-
-        console.log(doc.getFontList());
         /* Inicio Cabecera */
         doc.addImage('../../assets/img/interrapidisimo.jpg', 'JPEG', x - 1, y + 7.5, 55, 20);
         doc.rect(x, y, 55, 24);
@@ -249,12 +267,6 @@ export class PdfService {
         doc.setTextColor(0, 0, 0);
         doc.text('ASUNTO:', x, y + 59);
 
-        doc.text('VIERNES, 30 DE JUNIO DE 2023', x + 24, y + 38);
-        doc.text('NANCY ARDILA VELASCO - REPRESENTANTE LEGAL', x + 24, y + 45);
-        doc.setTextColor(242, 63, 60);
-        doc.text('2782 - PTO/BOGOTA/CUND/COL/AV CRA 80 #57G-22 SUR ID 2782', x + 24, y + 52);
-        doc.setTextColor(0, 0, 0);
-        doc.text('NOVEDAD EN LIQUIDACIÓN DE ENVÍOS', x + 24, y + 59);
 
         doc.setDrawColor(242, 63, 60);
         doc.setFillColor(242, 63, 60);
@@ -262,25 +274,38 @@ export class PdfService {
         doc.rect(x + 149, y + 32, 30, 30);
         doc.setDrawColor(0, 0, 0);
         doc.setFillColor(0, 0, 0);
+
+        doc.text(datafactura.FechaEmisionComunicado || '', x + 24, y + 38);
+        doc.text(datafactura.NombreRp || '', x + 24, y + 45);
+        doc.setTextColor(242, 63, 60);
+        doc.text(datafactura.IdCentroServicio + ' - ' + datafactura.DireccionCS + ' ID ' + datafactura.IdCentroServicio || '', x + 24, y + 52);
+        doc.setTextColor(0, 0, 0);
+        doc.text('NOVEDAD EN LIQUIDACIÓN DE ENVÍOS', x + 24, y + 59);
         /* Inicio Fecha, Para, ID , Asunto */
 
+
+        let arrayco = '';
+        let cadena = '';
+        if (datafactura.FechaEmisionComunicado != null && datafactura.FechaEmisionComunicado != '') {
+            arrayco = datafactura.FechaEmisionComunicado.split(' ') || '';
+            cadena = `${arrayco[1]} ${arrayco[2]} ${arrayco[3]} ${arrayco[4]} ${arrayco[5]}`;
+        }
 
         /* Inicio Body */
         doc.setFontSize(9);
         doc.setFont("leelawad");
         doc.text('Cordial Saludo:', x, y + 71);
-        doc.text('De acuerdo a la auditoría de peso realizada el día viernes,', x, y + 80);
+        doc.text('De acuerdo a la auditoría de peso realizada el día ' + arrayco[0] || '', x, y + 80);
 
         doc.setTextColor(242, 63, 60);
-        doc.text('30 de diciembre de 2023', x + 83, y + 80);
+        doc.text(cadena || '', x + 83, y + 80);
         doc.setTextColor(0, 0, 0);
         doc.setFont("leelawad");
-        doc.text('por medio de la', x + 119, y + 80);
+        doc.text('por medio de la', x + 121, y + 80);
         doc.setTextColor(242, 63, 60);
-        doc.text('herramienta App', x + 142, y + 80);
+        doc.text('herramienta App', x + 144, y + 80);
         doc.setTextColor(0, 0, 0);
-        doc.text('el envío admitido', x + 167, y + 80);
-
+        doc.text('el envío admitido', x + 169, y + 80);
 
         doc.setFontSize(9);
         doc.setTextColor(0, 0, 0);
@@ -288,7 +313,7 @@ export class PdfService {
         doc.text('relacionado en las facturas de venta', x + 66, y + 85);
         doc.setTextColor(242, 63, 60);
         doc.text('el peso', x + 55, y + 85);
-        doc.text('70012553463', x + 118, y + 85);
+        doc.text(dataguia.guia.toString() || '', x + 118, y + 85);
         doc.setTextColor(0, 0, 0);
         doc.setFont("leelawad");
         doc.text('no corresponden con el peso real del', x + 140, y + 85);
@@ -300,7 +325,7 @@ export class PdfService {
         doc.setTextColor(242, 63, 60);
         doc.text('obteniendo', x + 10, y + 90);
         doc.setTextColor(0, 0, 0);
-        doc.text('una diferencia de 17 Kg equivalentes a $ 158.250,00.', x + 25, y + 90);
+        doc.text('una diferencia de ' + dataguia.diferencia_peso.toString() + ' Kg equivalentes a $ ' + dataguia.valorajuste.toString() + '.' || '', x + 25, y + 90);
 
         /* Inicio Tabla Auditoria*/
         doc.setDrawColor(0, 0, 0);
@@ -363,27 +388,36 @@ export class PdfService {
         doc.rect(x + 172, y + 118, 18, 6);
         doc.setTextColor(0, 0, 0);
         doc.setFont("leelawad");
-        doc.text('2782', x + 1, y + 122);
-        doc.text('700102553463', x + 16, y + 122);
-        doc.text('6/29/2023', x + 39, y + 122);
+        doc.text(dataguia.idCentroServicio.toString() || '', x + 1, y + 122);
+        doc.text(dataguia.guia.toString() || '', x + 16, y + 122);
+        doc.text(dataguia.fechaadmision.toString() || '', x + 39, y + 122);
         doc.text('$', x + 56, y + 122);
-        doc.text('41.150', x + 64, y + 122);
-        doc.text('47', x + 77, y + 122);
-        doc.text('64', x + 92, y + 122);
-        doc.text('17', x + 107, y + 122);
-        doc.text('73', x + 125, y + 122);
-        doc.text('74', x + 135, y + 122);
-        doc.text('70', x + 145, y + 122);
+        doc.text(dataguia.valortotal_envio.toString() || '', x + 64, y + 122);
+        doc.text(dataguia.peso_auditoria.toString() || '', x + 77, y + 122);
+        doc.text(dataguia.volumen_auditoria.toString() || '', x + 92, y + 122);
+        doc.text(dataguia.diferencia_peso.toString() || '', x + 107, y + 122);
+        doc.text(dataguia.largo_auditoria.toString() || '', x + 125, y + 122);
+        doc.text(dataguia.ancho_auditoria.toString() || '', x + 135, y + 122);
+        doc.text(dataguia.alto_auditoria.toString() || '', x + 145, y + 122);
         doc.text('$', x + 155, y + 122);
-        doc.text('199.400', x + 158, y + 122);
+        doc.text(dataguia.valortotal_auditoria.toString() || '', x + 158, y + 122);
         doc.text('$', x + 173, y + 122);
-        doc.text('158.250', x + 176, y + 122);
+        doc.text(dataguia.valortotal_envio.toString() || '', x + 176, y + 122);
         /* Fin Tabla Auditoria*/
 
         /* Inicio Imagenes*/
         let z: number = 10;
-        for (let i = 1; i <= 4; i++) {
-            doc.addImage('../../assets/img/certified_mail.jpg', 'JPEG', x + z, y + 130, 30, 40);
+        for (let i = 0; i < imagenes.length; i++) {
+            let base64ImageData = '';
+            switch (imagenes[i]['Tipo']) {
+                case "JPEG":
+                    base64ImageData = 'data:image/jpeg;base64,' + imagenes[i]['Archivo'];
+                    break;
+                case "PNG":
+                    base64ImageData = 'data:image/png;base64,' + imagenes[i]['Archivo'];
+                    break;
+            }
+            doc.addImage(base64ImageData, imagenes[i]['Tipo'], x + z, y + 130, 30, 40);
             z = z + 45;
         }
         /* Fin Imagenes*/
@@ -393,7 +427,7 @@ export class PdfService {
         doc.text('mediante afectaciones a la caja. Teniendo en cuenta lo anterior se realizará el cobro respectivo afectando la caja del canal de venta a su', x, y + 185);
         doc.text('cargo mediante un ingreso por valor de', x, y + 190);
         doc.setTextColor(242, 63, 60);
-        doc.text('$ 158.250,00', x + 57, y + 190);
+        doc.text('$ ' + dataguia.valorajuste.toString() || '', x + 57, y + 190);
         doc.setTextColor(0, 0, 0);
         doc.text('Para mayor información, escríbenos al correo electrónico: subgerente.controldecuentas1@interrapidisimo.com', x, y + 200);
         doc.text('Agradecemos la confianza depositada en la compañía y recuerde que usted es nuestro aliado comercial y parte importante de INTER', x, y + 210);
@@ -401,6 +435,7 @@ export class PdfService {
         /* Fin Body */
 
         /* Inicio Firma y footer*/
+        doc.addImage('../../assets/firma/FirmaDigital.PNG', 'PNG', x, y + 220, 50, 20);
         doc.line(x, y + 235, x + 50, y + 235);
         doc.setFont('leelawdb');
         doc.text('INTER RAPIDÍSIMO S.A.', x, y + 245);
@@ -408,9 +443,11 @@ export class PdfService {
         doc.setFontSize(7);
         doc.text('EL PRESENTE DOCUMENTO ES PROPIEDAD DE INTER RAPIDÍSIMO. SU UTILIZACIÓN ES EXCLUSIVA Y PRIVILEGIADA PARA EL FUNCIONAMIENTO', x + 10, y + 250);
         doc.text('INTERNO DE LA COMPAÑIA NO DEBE SER REPRODUCIDO TOTAL NI PARCIALMENTE', x + 48, y + 255);
-        /* Fin Firma y footer*/
+        // /* Fin Firma y footer*/
 
-        window.open(doc.output('bloburl'), '_blank');
+        //window.open(doc.output('bloburl'), '_blank');
+
+        return doc.output('datauristring');
     }
 
 }

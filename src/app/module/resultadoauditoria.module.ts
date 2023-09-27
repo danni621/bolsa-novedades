@@ -1,14 +1,15 @@
 import { EstadosGuia } from '../enums/enums';
 
 export interface ResultadoAuditoria {
-    resultado: EstadosGuia;
-    afectacionCaja?: AfectacionCaja;
-    observacion?: string;
+    Resultado: EstadosGuia;
+    AfectacionCaja?: AfectacionCaja;
+    Observacion?: string;
 }
 
 export interface AfectacionCaja {
-    centroServicio: number;
-    valorAjuste: number;
-    numeroGuia: number;
+    CentroServicio: number;
+    ValorAjuste: number;
+    NumeroGuia: number;
     creadoPor?: string;
+    CentroServicioMensajero?: number;
 }

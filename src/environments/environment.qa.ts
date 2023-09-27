@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   urlToken: 'https://jqxbwc8uu4.execute-api.us-east-1.amazonaws.com/Desarrollo/autorizador',
   url: 'https://k10bpj0uqe.execute-api.us-east-1.amazonaws.com/Desarrollo/',
   UrlAutenticacion: "https://apitesting.interrapidisimo.co/apilogin",

@@ -3,10 +3,12 @@ import Swal from 'sweetalert2';
 
 import { HtmlService } from '../components/html/html.module';
 import { PdfService } from '../components/pdf/pdfservice.module';
+import { Utilitarios } from '../utilitarios/utilitarios.component';
 import { environment } from 'src/environments/environment';
 import { Service } from '../services/services';
 import { CambiosEstadoLiquidacionModule } from '../module/cambiostestadoliq.module';
 import { EstadosGuia } from '../enums/enums';
+import { RespuestaCargarImagenes } from '../module/respuestacargarimagenes.module';
 
 declare var $: any;
 
@@ -16,11 +18,16 @@ declare var $: any;
 })
 export class Functions {
 
+    token: any = "";
+    imagenes: RespuestaCargarImagenes[] = [];
+
     constructor(private html: HtmlService,
         private pdfService: PdfService,
-        private service: Service) { }
+        private service: Service,
+        private utilitarios: Utilitarios) { }
 
-    PopUpAprobar(html: any, guia: any) {
+    PopUpAprobar(html: any, guia: any, datafactura: any) {
+
         Swal.fire({
             allowOutsideClick: false,
             html: html,
@@ -30,8 +37,33 @@ export class Functions {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                const data = this.pdfService.GenerarFactura();
-                this.PopUpvVerEnviarFactura(this.html.VerFacturaPos(data));
+                $('#loader').removeClass('hide');
+                this.service.ConsumoToken().subscribe({
+                    next: (resp: any) => {
+                        this.token = resp.IdToken;
+                        this.service.ConsumoServicio('cargarimagenes', guia.guia, this.token).subscribe({
+                            next: (res: any) => {
+                                this.imagenes = res;
+
+                                let facturapos = this.pdfService.GenerarFactura(datafactura);
+                                let generarcomunicado = this.pdfService.GenerarComunicadoInterno(guia, datafactura, this.imagenes);
+                                let arraypos = facturapos.split(',');
+                                let arraycomunicado = generarcomunicado.split(',');
+                                let notificacion = this.utilitarios.CrearNotificacion(EstadosGuia.Aprobado, this.imagenes, guia, datafactura, arraypos[1], arraycomunicado[1]);
+
+                                $('#loader').addClass('hide');
+                                this.PopUpvVerEnviarFactura(this.html.VerFacturaPos(facturapos), notificacion);
+
+                            },
+                            error: (err: any) => {
+                                console.log(err, 'Error - Consumo servicio Imagenenes Aprobacion');
+                            }
+                        });
+                    },
+                    error: (err: any) => {
+                        this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+                    }
+                });
             }
         });
     }
@@ -47,12 +79,12 @@ export class Functions {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                alert('Enviar Correo');
+                window.location.href = '/bolsanovedades';
             }
         });
     }
 
-    PopUpvVerEnviarFactura(html: any) {
+    PopUpvVerEnviarFactura(html: any, notificacion: any) {
         Swal.fire({
             allowOutsideClick: false,
             html: html,
@@ -63,7 +95,28 @@ export class Functions {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                alert('Enviar correo');
+                $('#loader').removeClass('hide');
+                this.service.ConsumoToken().subscribe({
+                    next: (resp: any) => {
+                        this.token = resp.IdToken;
+
+                        this.service.ConsumoServicio('enviarcorreo', notificacion, this.token).subscribe({
+                            next: (res: any) => {
+                                $('#loader').addClass('hide');
+                                this.PopUpAlert('', 'success', res, false, false, true);
+                            },
+                            error: (err: any) => {
+                                $('#loader').addClass('hide');
+                                this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+                            }
+                        });
+
+                    },
+                    error: (err: any) => {
+                        $('#loader').addClass('hide');
+                        this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+                    }
+                });
             }
         });
     }
@@ -84,27 +137,35 @@ export class Functions {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                this.service.ConsumoServicio('consultarinfoliquidacion', guiaBuscar).subscribe({
-                    next: (res) => {
-
-                        localStorage.setItem("GuiaLiberar", guia.guia);
-                        localStorage.setItem("GuiaBuscar", guiaBuscar);
-                        window.location.href = '/bolsanovedades';
-                    },
-                    error: (err) => {
-                        let image: string = "";
-                        switch (err.error) {
-                            case "La guía no cuenta con auditoría pendiente para gestionar":
-                                image = 'guía_sin_auditoria.svg';
-                                break;
-                            case "La guía ya cuenta con auditoria gestionada":
-                                image = 'guia_auditada.svg';
-                                break;
-                            case "La guía esta siendo gestionada por otro usuario":
-                                image = 'guía_sin_auditoria.svg';
-                                break;
+                this.service.ConsumoToken().subscribe({
+                    next: (resp: any) => {
+                        this.token = resp.IdToken;
+                        this.service.ConsumoServicio('consultarinfoliquidacion', guiaBuscar, this.token).subscribe({
+                            next: (res) => {
+                                localStorage.removeItem("GuiaPorAuditar");
+                                localStorage.setItem("GuiaLiberar", guia.guia);
+                                localStorage.setItem("GuiaBuscar", guiaBuscar);
+                                window.location.href = '/bolsanovedades';
+                            },
+                            error: (err) => {
+                                let image: string = "";
+                                switch (err.error) {
+                                    case "La guía no cuenta con auditoría pendiente para gestionar":
+                                        image = 'guía_sin_auditoria.svg';
+                                        break;
+                                    case "La guía ya cuenta con auditoria gestionada":
+                                        image = 'guia_auditada.svg';
+                                        break;
+                                    case "La guía esta siendo gestionada por otro usuario":
+                                        image = 'guía_sin_auditoria.svg';
+                                        break;
+                                }
                                 this.PopUpInfo(this.html.InfoHtml(err.error, image), guia.guia);
-                        }
+                            }
+                        });
+                    },
+                    error: (err: any) => {
+                        this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
                     }
                 });
             } else {
@@ -131,8 +192,7 @@ export class Functions {
             },
         }).then(resp => {
             if (resp.isConfirmed && confirm) {
-                this.removeItemsToken();
-                window.location.href = environment.urlLogin;
+                window.location.href = '/bolsanovedades';
             }
         });
 
@@ -169,7 +229,7 @@ export class Functions {
             showConfirmButton: true,
             confirmButtonText: 'Aceptar',
         }).then(resp => {
-            if (resp.isConfirmed)
+            if (resp.isConfirmed) {
                 if (localStorage.getItem("GuiaPorAuditar") != null && localStorage.getItem("GuiaPorAuditar") != "") {
                     let estado: CambiosEstadoLiquidacionModule = {
                         NumeroGuia: parseInt(localStorage.getItem("GuiaPorAuditar") ?? '0'),
@@ -178,17 +238,26 @@ export class Functions {
                         CreadoPor: localStorage.getItem('nombreusuario') ?? 'SISTEMA'
                     }
 
-                    this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado).subscribe({
-                        next: (res) => {
-                            console.log(res);
+                    this.service.ConsumoToken().subscribe({
+                        next: (resp: any) => {
+                            this.token = resp.IdToken;
+                            this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado, this.token).subscribe({
+                                next: (res) => {
+                                    console.log(res);
+                                },
+                                error: (err) => {
+                                    console.log(err);
+                                }
+                            });
                         },
-                        error: (err) => {
-                            console.log(err);
+                        error: (err: any) => {
+                            this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
                         }
                     });
                 }
-            this.removeItemsToken();
-            window.location.href = environment.urlLogin;
+                this.removeItemsToken();
+                window.location.href = environment.urlLogin;
+            }
         });
 
     }
@@ -196,5 +265,7 @@ export class Functions {
     removeItemsToken() {
         localStorage.clear();
     }
+
+
 
 }

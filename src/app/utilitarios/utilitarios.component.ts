@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GuiaModule } from '../module/guia.module';
+import { Notificacion, DetalleAdjunto } from '../module/notificacion.module';
 
 
 
@@ -44,8 +45,47 @@ export class Utilitarios {
         this.guia.observacion = res.Observaciones;
         this.guia.valortotal_auditoria = res.ValorLiquidacionAuditoria;
         this.guia.valorajuste = res.ValorDiferenciaLiquidacion;
+        this.guia.idCentroServicioMensajero = res.IdCentroServicioMensajero
 
         return this.guia;
+    }
+
+    CrearNotificacion(estado: any, imagenes: any, guia: any, datosFacturaPos: any, facturapos: any = "", comunicado: any = "") {
+
+        let detalleimagen: DetalleAdjunto[] = [];
+
+        detalleimagen.push({
+            Archivo: comunicado,
+            NombreArchivo: 'ComunicadoIntero',
+            ExtensionArchivo: 'PDF'
+        });
+
+        detalleimagen.push({
+            Archivo: facturapos,
+            NombreArchivo: 'Factura',
+            ExtensionArchivo: 'PDF'
+        });
+
+        let z = 1;
+        for (let i = 0; i < imagenes.length; i++) {
+            detalleimagen.push({
+                Archivo: imagenes[i]['Archivo'],
+                NombreArchivo: 'Imagen' + z,
+                ExtensionArchivo: imagenes[i]['Tipo']
+            });
+            z++;
+        }
+
+        let datanotifica: Notificacion = {
+            EstadoAuditoria: estado,
+            ListAdjuntos: detalleimagen,
+            EmailCentroDeOrigen: ((datosFacturaPos.CorreoRp == '' || datosFacturaPos.CorreoRp == null) ? 'analistacalidad.funcional@interrapidisimo.com' : datosFacturaPos.CorreoRp),
+            EmailCentroDeDestinoAuditor: ((datosFacturaPos.CorreoCsMensajero == '' || datosFacturaPos.CorreoCsMensajero == null) ? 'analistacalidad.funcional@interrapidisimo.com' : datosFacturaPos.CorreoCsMensajero),
+            NumeroGuia: parseInt(guia.guia)
+        }
+
+        return datanotifica;
+
     }
 
 }

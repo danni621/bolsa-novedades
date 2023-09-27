@@ -11,11 +11,22 @@ import { environment } from '../../environments/environment';
 
 export class Service {
 
+    token: any = "";
+    private httoptions: any
+
     constructor(private http: HttpClient) {
     }
 
-    ConsumoServicio(metodo: any, data: any) {
-        return this.http.post(`${environment.url}${metodo}`, data).pipe(
+    ConsumoServicio(metodo: any, data: any, token: any) {
+
+        this.httoptions = {
+            headers: new HttpHeaders({
+                'Token': token,
+                'Content-Type': 'application/json'
+            })
+        }
+
+        return this.http.post(`${environment.url}${metodo}`, data, this.httoptions).pipe(
             map((resp: any) => {
                 return resp;
             })
@@ -29,5 +40,17 @@ export class Service {
             })
         );
 
+    }
+
+    ConsumoToken() {
+        const data = {
+            Usuario: environment.Usuario,
+            Password: environment.Password
+        }
+        return this.http.post(`${environment.urlToken}`, data).pipe(
+            map((resp: any) => {
+                return resp;
+            })
+        );
     }
 }

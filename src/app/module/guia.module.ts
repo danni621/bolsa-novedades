@@ -33,4 +33,5 @@ export class GuiaModule {
     idCentroServicio: string = "";
     observacion: string = "";
     valorajuste: string = "";
+    idCentroServicioMensajero: string = "";
 }
