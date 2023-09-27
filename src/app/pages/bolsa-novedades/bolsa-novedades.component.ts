@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { Service } from '../../services/services';
 import { GuiaModule } from '../../module/guia.module';
 import { RespuestaCargarImagenes } from '../../module/respuestacargarimagenes.module';
@@ -30,8 +28,7 @@ export class BolsaNovedadesComponent {
   imagenes: RespuestaCargarImagenes[] = [];
   token: any = "";
 
-  constructor(private modalService: NgbModal,
-    private functions: Functions,
+  constructor(private functions: Functions,
     private service: Service,
     private htmlservice: HtmlService,
     private utilitarios: Utilitarios,
