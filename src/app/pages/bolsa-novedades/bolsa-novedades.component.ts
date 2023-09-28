@@ -50,7 +50,7 @@ export class BolsaNovedadesComponent {
     localStorage.removeItem("GuiaBuscar");
     localStorage.removeItem("GuiaLiberar");
 
-    if (this.GuiaLiberar != "") {
+    if (this.GuiaLiberar != "" && this.GuiaLiberar != null) {
       await this.CambiosEstadoLiq(this.GuiaLiberar, 1, EstadosGuia.PorAuditor, true);
       this.GuiaLiberar = "";
     } else if (localStorage.getItem("GuiaPorAuditar") != null && localStorage.getItem("GuiaPorAuditar") != "") {
@@ -109,7 +109,8 @@ export class BolsaNovedadesComponent {
 
     await this.service.ConsumoServicio('consultarpendientesliquidacion', '').then(res => {
       if (res.GuiaGestionar == '0') {
-        this.functions.PopUpAlert('', 'info', 'No hay guías pendientes por gestionar', false, false, true);
+        let sitiologin = 'sitiologin';
+        this.functions.PopUpAlert('', 'info', 'No hay guías pendientes por gestionar', false, false, true, sitiologin);
       } else {
         res.GuiaGestionar = ((this.guiaBuscar != "") ? this.guiaBuscar : res.GuiaGestionar);
         this.GuiaEnGestion = res.GuiaGestionar;

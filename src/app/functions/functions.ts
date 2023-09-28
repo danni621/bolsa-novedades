@@ -142,7 +142,8 @@ export class Functions {
         icon: any, text: any,
         allowOutsideClick: boolean = false,
         loading: boolean = false,
-        confirm: boolean = false) {
+        confirm: boolean = false,
+        sitio: string = '/bolsanovedades') {
 
         Swal.fire({
             allowOutsideClick: allowOutsideClick,
@@ -155,7 +156,7 @@ export class Functions {
             },
         }).then(resp => {
             if (resp.isConfirmed && confirm) {
-                window.location.href = '/bolsanovedades';
+                window.location.href = ((sitio == '/bolsanovedades') ? '/bolsanovedades' : environment.urlLogin);
             }
         });
 
