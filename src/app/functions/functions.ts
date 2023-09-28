@@ -184,8 +184,8 @@ export class Functions {
     }
 
 
-    SesionCaducada() {
-        Swal.fire({
+    async SesionCaducada() {
+        await Swal.fire({
             title: "Sesión Caducada",
             text: "Por favor autenticarse nuevamente",
             allowOutsideClick: false,

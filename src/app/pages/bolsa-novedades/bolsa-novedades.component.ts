@@ -53,8 +53,6 @@ export class BolsaNovedadesComponent {
     if (this.GuiaLiberar != "" && this.GuiaLiberar != null) {
       await this.CambiosEstadoLiq(this.GuiaLiberar, 1, EstadosGuia.PorAuditor, true);
       this.GuiaLiberar = "";
-    } else if (localStorage.getItem("GuiaPorAuditar") != null && localStorage.getItem("GuiaPorAuditar") != "") {
-      await this.CambiosEstadoLiq(localStorage.getItem("GuiaPorAuditar"), 1, EstadosGuia.PorAuditor, true);
     }
 
     await this.ConsumoHeader();
@@ -112,6 +110,9 @@ export class BolsaNovedadesComponent {
         let sitiologin = 'sitiologin';
         this.functions.PopUpAlert('', 'info', 'No hay guías pendientes por gestionar', false, false, true, sitiologin);
       } else {
+        if (localStorage.getItem("GuiaPorAuditar") != null && localStorage.getItem("GuiaPorAuditar") != "") {
+          this.CambiosEstadoLiq(localStorage.getItem("GuiaPorAuditar"), 1, EstadosGuia.PorAuditor, true);
+        }
         res.GuiaGestionar = ((this.guiaBuscar != "") ? this.guiaBuscar : res.GuiaGestionar);
         this.GuiaEnGestion = res.GuiaGestionar;
         this.ConsumoInfoGuia(this.GuiaEnGestion);
