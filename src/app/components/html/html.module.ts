@@ -19,7 +19,7 @@ export class HtmlService {
             '<div class="row custom-row">' +
             '<div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">' +
             '<p class="text-muted">' +
-            '<span class="text-line p-1">¡Liquidación Aprobrada!</span>' +
+            '<span class="text-line p-1">¡Liquidación Aprobada!</span>' +
             '</p>' +
             '</div>' +
             '</div>' +
