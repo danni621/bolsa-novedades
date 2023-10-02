@@ -116,9 +116,9 @@ export class Functions {
             if (result.isConfirmed) {
                 try {
                     await this.service.ConsumoServicio('consultarinfoliquidacion', guiaBuscar);
-                    localStorage.removeItem("GuiaPorAuditar");
-                    localStorage.setItem("GuiaLiberar", guia.guia);
-                    localStorage.setItem("GuiaBuscar", guiaBuscar);
+                    sessionStorage.removeItem("GuiaPorAuditar");
+                    sessionStorage.setItem("GuiaLiberar", guia.guia);
+                    sessionStorage.setItem("GuiaBuscar", guiaBuscar);
                     window.location.href = '/bolsanovedades';
                 } catch (err: any) {
                     let image: string = "";
@@ -198,9 +198,9 @@ export class Functions {
             confirmButtonText: 'Aceptar',
         }).then(async (resp) => {
             if (resp.isConfirmed) {
-                if (localStorage.getItem("GuiaPorAuditar") != null && localStorage.getItem("GuiaPorAuditar") != "") {
+                if (sessionStorage.getItem("GuiaPorAuditar") != null && sessionStorage.getItem("GuiaPorAuditar") != "") {
                     let estado: CambiosEstadoLiquidacionModule = {
-                        NumeroGuia: parseInt(localStorage.getItem("GuiaPorAuditar") ?? '0'),
+                        NumeroGuia: parseInt(sessionStorage.getItem("GuiaPorAuditar") ?? '0'),
                         IdTipoNovedad: 1,
                         IdEstadoNovedad: EstadosGuia.PorAuditor,
                         CreadoPor: localStorage.getItem('nombreusuario') ?? 'SISTEMA'
@@ -221,6 +221,7 @@ export class Functions {
 
     removeItemsToken() {
         localStorage.clear();
+        sessionStorage.clear();
     }
 
 

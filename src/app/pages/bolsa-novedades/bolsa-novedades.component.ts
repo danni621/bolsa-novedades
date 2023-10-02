@@ -40,15 +40,15 @@ export class BolsaNovedadesComponent {
   async ngOnInit(): Promise<void> {
     $('#loader').removeClass('hide');
 
-    const canActivateExecuted = localStorage.getItem('canActivateExecuted');
+    const canActivateExecuted = sessionStorage.getItem('canActivateExecuted');
     if (!canActivateExecuted) {
       await this.authguard.canActivate();
     }
 
-    this.guiaBuscar = localStorage.getItem("GuiaBuscar") ?? '';
-    this.GuiaLiberar = localStorage.getItem("GuiaLiberar") ?? '';
-    localStorage.removeItem("GuiaBuscar");
-    localStorage.removeItem("GuiaLiberar");
+    this.guiaBuscar = sessionStorage.getItem("GuiaBuscar") ?? '';
+    this.GuiaLiberar = sessionStorage.getItem("GuiaLiberar") ?? '';
+    sessionStorage.removeItem("GuiaBuscar");
+    sessionStorage.removeItem("GuiaLiberar");
 
     if (this.GuiaLiberar != "" && this.GuiaLiberar != null) {
       await this.CambiosEstadoLiq(this.GuiaLiberar, 1, EstadosGuia.PorAuditor, true);
@@ -112,8 +112,8 @@ export class BolsaNovedadesComponent {
         let sitiologin = 'sitiologin';
         this.functions.PopUpAlert('', 'info', 'No hay guías pendientes por gestionar', false, false, true, sitiologin);
       } else {
-        if (localStorage.getItem("GuiaPorAuditar") != null && localStorage.getItem("GuiaPorAuditar") != "") {
-          await this.CambiosEstadoLiq(localStorage.getItem("GuiaPorAuditar"), 1, EstadosGuia.PorAuditor, true);
+        if (sessionStorage.getItem("GuiaPorAuditar") != null && sessionStorage.getItem("GuiaPorAuditar") != "") {
+          await this.CambiosEstadoLiq(sessionStorage.getItem("GuiaPorAuditar"), 1, EstadosGuia.PorAuditor, true);
         }
         res.GuiaGestionar = ((this.guiaBuscar != "") ? this.guiaBuscar : res.GuiaGestionar);
         this.GuiaEnGestion = res.GuiaGestionar;
@@ -170,7 +170,7 @@ export class BolsaNovedadesComponent {
       if (this.guiaBuscar != "") {
         this.guiaBuscar = "";
       }
-      localStorage.setItem("GuiaPorAuditar", this.guia.guia);
+      sessionStorage.setItem("GuiaPorAuditar", this.guia.guia);
     } catch (err: any) {
       this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
     }

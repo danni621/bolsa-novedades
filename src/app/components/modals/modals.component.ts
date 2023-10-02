@@ -106,8 +106,8 @@ export class ModalsComponent {
   }
 
   removeItemns() {
-    localStorage.removeItem("GuiaPorAuditar");
-    localStorage.removeItem("canActivateExecuted");
+    sessionStorage.removeItem("GuiaPorAuditar");
+    sessionStorage.removeItem("canActivateExecuted");
   }
 
 }

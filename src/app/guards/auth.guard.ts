@@ -47,7 +47,7 @@ export class AuthGuard {
         try {
             const res = await this.service.ValidarToken('/api/Autenticacion/ValidarToken', peticionValidarToken);
             this.setItemsToken(peticionValidarToken, res);
-            localStorage.setItem('canActivateExecuted', 'true');
+            sessionStorage.setItem('canActivateExecuted', 'true');
             window.location.href = '/bolsanovedades';
         } catch (err: any) {
             throw err;
