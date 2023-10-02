@@ -402,7 +402,7 @@ export class PdfService {
         doc.text('$', x + 155, y + 122);
         doc.text(dataguia.valortotal_auditoria.toString() || '', x + 158, y + 122);
         doc.text('$', x + 173, y + 122);
-        doc.text(dataguia.valortotal_envio.toString() || '', x + 176, y + 122);
+        doc.text(dataguia.valorajuste.toString() || '', x + 176, y + 122);
         /* Fin Tabla Auditoria*/
 
         /* Inicio Imagenes*/

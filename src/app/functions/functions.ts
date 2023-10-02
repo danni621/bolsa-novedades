@@ -35,10 +35,11 @@ export class Functions {
             customClass: {
                 confirmButton: 'my-custom-button-class',
             }
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
                 $('#loader').removeClass('hide');
-                this.service.ConsumoServicio('cargarimagenes', guia.guia).then(res => {
+                try {
+                    let res = await this.service.ConsumoServicio('cargarimagenes', guia.guia);
                     this.imagenes = res;
 
                     let facturapos = this.pdfService.GenerarFactura(datafactura);
@@ -49,9 +50,10 @@ export class Functions {
 
                     $('#loader').addClass('hide');
                     this.PopUpvVerEnviarFactura(this.html.VerFacturaPos(facturapos), notificacion);
-                }).catch(err => {
+
+                } catch (err: any) {
                     console.log(err, 'Error - Consumo servicio Imagenenes Aprobacion');
-                });
+                }
             }
         });
     }
@@ -81,16 +83,17 @@ export class Functions {
                 confirmButton: 'my-custom-button-class',
                 container: 'mi-clase-personal'
             }
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
                 $('#loader').removeClass('hide');
-                this.service.ConsumoServicio('enviarcorreo', notificacion).then(res => {
+                try {
+                    let res = await this.service.ConsumoServicio('enviarcorreo', notificacion);
                     $('#loader').addClass('hide');
                     this.PopUpAlert('', 'success', res, false, false, true);
-                }).catch(err => {
+                } catch (err: any) {
                     $('#loader').addClass('hide');
-                    this.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-                });
+                    this.PopUpAlert('Error en el servidor', 'error', err.message, false, false, true);
+                }
             }
         });
     }
@@ -109,14 +112,15 @@ export class Functions {
                 confirmButton: 'my-custom-button-class',
                 cancelButton: 'button-info-3'
             }
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                this.service.ConsumoServicio('consultarinfoliquidacion', guiaBuscar).then(res => {
+                try {
+                    await this.service.ConsumoServicio('consultarinfoliquidacion', guiaBuscar);
                     localStorage.removeItem("GuiaPorAuditar");
                     localStorage.setItem("GuiaLiberar", guia.guia);
                     localStorage.setItem("GuiaBuscar", guiaBuscar);
                     window.location.href = '/bolsanovedades';
-                }).catch(err => {
+                } catch (err: any) {
                     let image: string = "";
                     switch (err.error) {
                         case "La guía no cuenta con auditoría pendiente para gestionar":
@@ -130,7 +134,7 @@ export class Functions {
                             break;
                     }
                     this.PopUpInfo(this.html.InfoHtml(err.error, image), guia.guia);
-                });
+                }
             } else {
                 $("#inputGuia").val(guia.guia);
             }
@@ -192,7 +196,7 @@ export class Functions {
             showCancelButton: false,
             showConfirmButton: true,
             confirmButtonText: 'Aceptar',
-        }).then(resp => {
+        }).then(async (resp) => {
             if (resp.isConfirmed) {
                 if (localStorage.getItem("GuiaPorAuditar") != null && localStorage.getItem("GuiaPorAuditar") != "") {
                     let estado: CambiosEstadoLiquidacionModule = {
@@ -201,11 +205,12 @@ export class Functions {
                         IdEstadoNovedad: EstadosGuia.PorAuditor,
                         CreadoPor: localStorage.getItem('nombreusuario') ?? 'SISTEMA'
                     }
-                    this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado).then(res => {
-                        console.log(res);
-                    }).catch(err => {
+
+                    try {
+                        await this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado);
+                    } catch (err: any) {
                         console.log(err);
-                    });
+                    }
                 }
                 this.removeItemsToken();
                 window.location.href = environment.urlLogin;

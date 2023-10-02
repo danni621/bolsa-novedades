@@ -88,8 +88,8 @@ export class ModalsComponent {
   }
 
   async ConsumoAuditoria(auditoria: any, aprobrecha: boolean) {
-
-    await this.service.ConsumoServicio('guardarresultadoauditoria', auditoria).then(res => {
+    try {
+      let res = await this.service.ConsumoServicio('guardarresultadoauditoria', auditoria);
       $('#loader').addClass('hide');
       if (aprobrecha) {
         let datosfactura: ResponseDatosFactura = res;
@@ -99,11 +99,10 @@ export class ModalsComponent {
         this.removeItemns();
         this.functions.PopUpRechazar(this.htmlService.RechazarHtml(this.guia), this.guia);
       }
-    }).catch(err => {
+    } catch (err: any) {
       $('#loader').addClass('hide');
       this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-    });
-
+    }
   }
 
   removeItemns() {

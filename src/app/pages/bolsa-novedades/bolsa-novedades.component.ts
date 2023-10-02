@@ -63,19 +63,20 @@ export class BolsaNovedadesComponent {
   async VerEvidencias(event: Event) {
     event.preventDefault();
     $('#loader').removeClass('hide');
-    await this.service.ConsumoServicio('cargarimagenes', this.guia.guia).then(res => {
+    try {
+      let res = await this.service.ConsumoServicio('cargarimagenes', this.guia.guia);
       this.imagenes = res;
       $('#idVerEvidenciasModal').modal('show');
       $('#loader').addClass('hide');
 
-    }).catch(err => {
+    } catch (err: any) {
       if (err.status == 400) {
         this.functions.PopUpAlert('', 'info', err.error, true, false);
         $('#loader').addClass('hide');
       } else {
         this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false);
       }
-    });
+    }
   }
 
   ChangeColor() {
@@ -105,38 +106,38 @@ export class BolsaNovedadesComponent {
 
   async ConsumoHeader() {
 
-    await this.service.ConsumoServicio('consultarpendientesliquidacion', '').then(res => {
+    try {
+      let res = await this.service.ConsumoServicio('consultarpendientesliquidacion', '');
       if (res.GuiaGestionar == '0') {
         let sitiologin = 'sitiologin';
         this.functions.PopUpAlert('', 'info', 'No hay guías pendientes por gestionar', false, false, true, sitiologin);
       } else {
         if (localStorage.getItem("GuiaPorAuditar") != null && localStorage.getItem("GuiaPorAuditar") != "") {
-          this.CambiosEstadoLiq(localStorage.getItem("GuiaPorAuditar"), 1, EstadosGuia.PorAuditor, true);
+          await this.CambiosEstadoLiq(localStorage.getItem("GuiaPorAuditar"), 1, EstadosGuia.PorAuditor, true);
         }
         res.GuiaGestionar = ((this.guiaBuscar != "") ? this.guiaBuscar : res.GuiaGestionar);
         this.GuiaEnGestion = res.GuiaGestionar;
-        this.ConsumoInfoGuia(this.GuiaEnGestion);
+        await this.ConsumoInfoGuia(this.GuiaEnGestion);
       }
-    }).catch(err => {
+    } catch (err: any) {
       this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-    });
-
+    }
   }
 
 
   async ConsumoInfoGuia(guia: any) {
-
-    await this.service.ConsumoServicio('consultarinfoliquidacion', guia).then(res => {
-      this.CambiosEstadoLiq(guia, 1, EstadosGuia.Auditando);
+    try {
+      let res = await this.service.ConsumoServicio('consultarinfoliquidacion', guia);
+      await this.CambiosEstadoLiq(guia, 1, EstadosGuia.Auditando);
       this.guia = this.utilitarios.CargarInfoGuia(res);
       this.ChangeColor();
-    }).catch(err => {
+    } catch (err: any) {
       if (err.status == 400) {
         this.functions.PopUpAlert('', 'info', err.error, true, false, true);
       } else {
         this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
       }
-    });
+    }
   }
 
 
@@ -149,18 +150,20 @@ export class BolsaNovedadesComponent {
       CreadoPor: localStorage.getItem('nombreusuario') ?? 'SISTEMA'
     }
 
-    await this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado).then(res => {
+    try {
+      await this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado);
       if (!consumenca) {
-        this.ConsumoEncabezado();
+        await this.ConsumoEncabezado();
       }
-    }).catch(err => {
+    } catch (err: any) {
       this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-    });
-
+    }
   }
 
   async ConsumoEncabezado() {
-    await this.service.ConsumoServicio('consultarpendientesliquidacion', '').then(res => {
+
+    try {
+      let res = await this.service.ConsumoServicio('consultarpendientesliquidacion', '');
       this.guia = this.utilitarios.CargarInfoEncabezado(res);
       $('#loader').addClass('hide');
       this.guia.guia = this.GuiaEnGestion;
@@ -168,9 +171,9 @@ export class BolsaNovedadesComponent {
         this.guiaBuscar = "";
       }
       localStorage.setItem("GuiaPorAuditar", this.guia.guia);
-    }).catch(err => {
+    } catch (err: any) {
       this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
-    });
+    }
   }
 
   BuscarGuia() {
