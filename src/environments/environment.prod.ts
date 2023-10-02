@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
-  urlToken: 'https://jqxbwc8uu4.execute-api.us-east-1.amazonaws.com/Desarrollo/autorizador',
-  url: 'https://k10bpj0uqe.execute-api.us-east-1.amazonaws.com/Desarrollo/',
-  UrlAutenticacion: "https://apitesting.interrapidisimo.co/apilogin",
-  urlLogin: "https://apitesting.interrapidisimo.co/SitioLogin",
+  urlToken: 'https://qz0atnyodf.execute-api.us-east-1.amazonaws.com/Produccion/autorizador',
+  url: 'https://1gnybpq0z6.execute-api.us-east-1.amazonaws.com/Produccion/',
+  UrlAutenticacion: "https://www3.interrapidisimo.com/apilogin",
+  urlLogin: "https://www3.interrapidisimo.com/SitioLogin",
   nombreAplicacion: "bolsanovedades",
   Usuario: "user-cognitooauth2",
   Password: "SW50ZXIyMDIxKg=="
