@@ -70,9 +70,9 @@
     text-align: center;
 }
 
-.image-width {
-    width: 400px !important;
-    height: 400px !important;
+.full-width-image {
+    width: 100%;
+    height: auto;
 }
 
 .custom-row {
