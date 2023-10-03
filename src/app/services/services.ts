@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { lastValueFrom } from 'rxjs';
 
 
 @Injectable({
@@ -17,43 +18,72 @@ export class Service {
     constructor(private http: HttpClient) {
     }
 
+
     async ConsumoServicio(metodo: any, data: any) {
+        return new Promise<any>(async (resolve, reject) => {
+            try {
+                let res: any = await this.ConsumoToken();
+                this.token = res.IdToken;
 
-        let res: any = await this.ConsumoToken();
-        this.token = res.IdToken;
+                this.httoptions = {
+                    headers: new HttpHeaders({
+                        'Token': this.token,
+                        'Content-Type': 'application/json'
+                    })
+                }
 
-        this.httoptions = {
-            headers: new HttpHeaders({
-                'Token': this.token,
-                'Content-Type': 'application/json'
-            })
-        }
+                const response = await lastValueFrom(
+                    this.http.post(`${environment.url}${metodo}`, data, this.httoptions)
+                        .pipe(
+                            map((resp: any) => {
+                                return resp;
+                            })
+                        )
+                );
 
-        return this.http.post(`${environment.url}${metodo}`, data, this.httoptions).pipe(
-            map((resp: any) => {
-                return resp;
-            })
-        ).toPromise();
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
+
 
     async ValidarToken(metodo: any, token: any) {
-        return this.http.post(`${environment.UrlAutenticacion}${metodo}`, token).pipe(
-            map((resp: any) => {
-                return resp;
-            })
-        ).toPromise();
+        return new Promise<any>(async (resolve, reject) => {
+            try {
+                const response = await lastValueFrom(this.http.post(`${environment.UrlAutenticacion}${metodo}`, token).pipe(
+                    map((resp: any) => {
+                        return resp;
+                    })
+                ));
+
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
     async ConsumoToken() {
-        const data = {
-            Usuario: environment.Usuario,
-            Password: environment.Password
-        }
-        try {
-            const resp = await this.http.post(`${environment.urlToken}`, data).toPromise();
-            return resp;
-        } catch (error) {
-            console.error('Error al obtener el token:', error);
-            throw error;
-        }
+        return new Promise<any>(async (resolve, reject) => {
+            try {
+                const data = {
+                    Usuario: environment.Usuario,
+                    Password: environment.Password
+                }
+
+                const response = await lastValueFrom(
+                    this.http.post(`${environment.urlToken}`, data).pipe(
+                        map((resp: any) => {
+                            return resp;
+                        })
+                    )
+                );
+                resolve(response);
+
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 }
