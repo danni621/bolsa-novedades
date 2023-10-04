@@ -132,11 +132,16 @@ export class Functions {
                         case "La guía esta siendo gestionada por otro usuario":
                             image = 'guía_sin_auditoria.svg';
                             break;
+                        default:
+                            err.error = "La guía no cuenta con auditoría pendiente";
+                            image = 'guía_sin_auditoria.svg';
+                            break;
                     }
                     this.PopUpInfo(this.html.InfoHtml(err.error, image), guia.guia);
                 }
             } else {
                 $("#inputGuia").val(guia.guia);
+                $('#loader').addClass('hide');
             }
         });
 
@@ -171,7 +176,6 @@ export class Functions {
 
 
     PopUpInfo(html: any, guia: any) {
-        console.log(guia, ' guia - a volver a gestionar');
         Swal.fire({
             allowOutsideClick: false,
             html: html,
