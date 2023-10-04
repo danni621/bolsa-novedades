@@ -184,4 +184,22 @@ export class BolsaNovedadesComponent {
     }
   }
 
+  onKeyDown(event: KeyboardEvent): void {
+    const keycode = event.which || event.keyCode;
+    if (keycode === 8) {
+      return;
+    }
+
+    if (keycode === 69 || this.isSpecialCharacter(keycode)) {
+      event.preventDefault();
+    }
+  }
+
+  isSpecialCharacter(keycode: number): boolean {
+    return !((keycode >= 48 && keycode <= 57) ||
+      (keycode >= 65 && keycode <= 90) ||
+      (keycode >= 97 && keycode <= 122) ||
+      (keycode === 43));
+  }
+
 }

@@ -6,9 +6,10 @@
                 <form class='autocomplete-container'>
                     <div class='autocomplete' role='combobox' aria-expanded='false' aria-owns='autocomplete-results'
                         aria-haspopup='listbox'>
-                        <input class='autocomplete-input' id="inputGuia" aria-label='Search for a fruit or vegetable'
-                            aria-autocomplete='both' aria-controls='autocomplete-results' value="{{guia.guia}}"
-                            autocomplete="off">
+                        <input type="number" class='autocomplete-input' id="inputGuia"
+                            aria-label='Search for a fruit or vegetable' aria-autocomplete='both'
+                            aria-controls='autocomplete-results' value="{{guia.guia}}" autocomplete="off"
+                            (keydown)="onKeyDown($event)">
                         <button type='button' class='autocomplete-submit' aria-label='Search' (click)="BuscarGuia()">
                             <span class="" id="basic-addon3"><img src="././assets/img/search.svg" alt=""></span>
                         </button>
