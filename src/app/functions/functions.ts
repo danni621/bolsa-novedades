@@ -115,7 +115,7 @@ export class Functions {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await this.service.ConsumoServicio('consultarinfoliquidacion', guiaBuscar);
+                    let res = await this.service.ConsumoServicio('consultarinfoliquidacion', guiaBuscar);
                     sessionStorage.removeItem("GuiaPorAuditar");
                     sessionStorage.setItem("GuiaLiberar", guia.guia);
                     sessionStorage.setItem("GuiaBuscar", guiaBuscar);
@@ -211,7 +211,7 @@ export class Functions {
                     }
 
                     try {
-                        await this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado);
+                        let res = await this.service.ConsumoServicio('CambiarEstadoLiquidacion', estado);
                     } catch (err: any) {
                         console.log(err);
                     }

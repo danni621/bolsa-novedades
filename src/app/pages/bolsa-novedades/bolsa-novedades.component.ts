@@ -112,9 +112,6 @@ export class BolsaNovedadesComponent {
         let sitiologin = 'sitiologin';
         this.functions.PopUpAlert('', 'info', 'No hay guías pendientes por gestionar', false, false, true, sitiologin);
       } else {
-        if (sessionStorage.getItem("GuiaPorAuditar") != null && sessionStorage.getItem("GuiaPorAuditar") != "") {
-          await this.CambiosEstadoLiq(sessionStorage.getItem("GuiaPorAuditar"), 1, EstadosGuia.PorAuditor, true);
-        }
         res.GuiaGestionar = ((this.guiaBuscar != "") ? this.guiaBuscar : res.GuiaGestionar);
         this.GuiaEnGestion = res.GuiaGestionar;
         await this.ConsumoInfoGuia(this.GuiaEnGestion);
