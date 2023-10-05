@@ -100,8 +100,12 @@ export class ModalsComponent {
         this.functions.PopUpRechazar(this.htmlService.RechazarHtml(this.guia), this.guia);
       }
     } catch (err: any) {
-      $('#loader').addClass('hide');
-      this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+      if (err.status == 400) {
+        this.functions.PopUpAlert('', 'info', err.error, true, false, true);
+      } else {
+        $('#loader').addClass('hide');
+        this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
+      }
     }
   }
 
