@@ -28,6 +28,7 @@ export class BolsaNovedadesComponent {
   GuiaEnGestion: string = '';
   imagenes: RespuestaCargarImagenes[] = [];
   token: any = "";
+  timeuot: string = "0";
 
   constructor(private functions: Functions,
     private service: Service,
@@ -40,15 +41,28 @@ export class BolsaNovedadesComponent {
   async ngOnInit(): Promise<void> {
     $('#loader').removeClass('hide');
 
-    const canActivateExecuted = sessionStorage.getItem('canActivateExecuted');
+
+    /*const canActivateExecuted = sessionStorage.getItem('canActivateExecuted');
     if (!canActivateExecuted) {
       await this.authguard.canActivate();
-    }
+    }*/
 
     this.guiaBuscar = sessionStorage.getItem("GuiaBuscar") ?? '';
     this.GuiaLiberar = sessionStorage.getItem("GuiaLiberar") ?? '';
     sessionStorage.removeItem("GuiaBuscar");
     sessionStorage.removeItem("GuiaLiberar");
+
+    const ActiveTime = localStorage.getItem('ActiveTime');
+    if (!ActiveTime) {
+      localStorage.setItem('timeout', this.timeuot);
+      localStorage.setItem('ActiveTime', 'true');
+    }
+
+    let conteo = parseInt(localStorage.getItem('timeout') ?? '0') + 5;
+    localStorage.setItem('timeout', conteo.toString());
+
+
+    await this.FunctionAwait(conteo * 1000);
 
     if (this.GuiaLiberar != "" && this.GuiaLiberar != null) {
       await this.CambiosEstadoLiq(this.GuiaLiberar, 1, EstadosGuia.PorAuditor, true);
@@ -56,6 +70,7 @@ export class BolsaNovedadesComponent {
     }
 
     await this.ConsumoHeader();
+
 
   }
 
@@ -130,6 +145,7 @@ export class BolsaNovedadesComponent {
       this.ChangeColor();
     } catch (err: any) {
       if (err.status == 400) {
+        this.LiberarTiempo();
         this.functions.PopUpAlert('', 'info', err.error, true, false, true);
       } else {
         this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
@@ -168,6 +184,7 @@ export class BolsaNovedadesComponent {
         this.guiaBuscar = "";
       }
       sessionStorage.setItem("GuiaPorAuditar", this.guia.guia);
+      this.LiberarTiempo();
     } catch (err: any) {
       this.functions.PopUpAlert('Error en el servidor', 'error', err.message, true, false, false);
     }
@@ -197,6 +214,22 @@ export class BolsaNovedadesComponent {
       (keycode >= 65 && keycode <= 90) ||
       (keycode >= 97 && keycode <= 122) ||
       (keycode === 43));
+  }
+
+  async FunctionAwait(time: any) {
+    return new Promise<any>((resolve, reject) => {
+      setTimeout(() => {
+        resolve(console.log('Espera...' + time));
+      }, time);
+    });
+  }
+
+  LiberarTiempo() {
+    let conteo = parseInt(localStorage.getItem('timeout') ?? '0');
+    if (conteo >= 40) {
+      localStorage.removeItem('timeout');
+      localStorage.removeItem('ActiveTime');
+    }
   }
 
 }
